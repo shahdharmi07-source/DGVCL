@@ -1,0 +1,21 @@
+{
+  "name": "dgcvl",
+  "version": "1.0.0",
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "backend": "npm --prefix backend start",
+    "frontend": "npm --prefix frontend start",
+    "dev": "concurrently \"npm --prefix backend start\" \"npm --prefix frontend start\"",
+    "server": "npm --prefix backend start",
+    "client": "npm --prefix frontend start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0"
+  }
+}

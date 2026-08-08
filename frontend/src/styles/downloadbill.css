@@ -1,0 +1,957 @@
+@import url(
+  'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap'
+);
+
+
+/* =====================================
+   GLOBAL
+===================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: #f4f8ff;
+  color: #172b4d;
+}
+
+
+/* =====================================
+   MAIN PAGE
+===================================== */
+
+.download-bill-page {
+
+  min-height: 100vh;
+
+  padding: 50px 20px;
+
+  background:
+    radial-gradient(
+      circle at 5% 5%,
+      rgba(37, 99, 235, 0.10),
+      transparent 30%
+    ),
+
+    radial-gradient(
+      circle at 95% 95%,
+      rgba(59, 130, 246, 0.08),
+      transparent 35%
+    ),
+
+    linear-gradient(
+      135deg,
+      #f4f8ff,
+      #ffffff
+    );
+
+}
+
+
+/* =====================================
+   MAIN CONTAINER
+===================================== */
+
+.bill-container {
+
+  width: 100%;
+
+  max-width: 900px;
+
+  margin: auto;
+
+  padding: 35px;
+
+  background: #ffffff;
+
+  border-radius: 28px;
+
+  border: 1px solid #dce7f7;
+
+  box-shadow:
+    0 25px 70px
+    rgba(30, 64, 175, 0.10);
+
+  position: relative;
+
+  overflow: hidden;
+
+}
+
+
+/* =====================================
+   TOP BLUE LINE
+===================================== */
+
+.bill-container::before {
+
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+
+  left: 0;
+
+  width: 100%;
+
+  height: 5px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #1d4ed8,
+      #3b82f6,
+      #60a5fa,
+      #1d4ed8
+    );
+
+}
+
+
+/* =====================================
+   HEADER
+===================================== */
+
+.bill-header {
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 15px;
+
+  margin-bottom: 35px;
+
+}
+
+
+/* =====================================
+   BILL LOGO
+===================================== */
+
+.bill-logo {
+
+  width: 65px;
+
+  height: 65px;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  color: #ffffff;
+
+  font-size: 30px;
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #1d4ed8,
+      #3b82f6
+    );
+
+  box-shadow:
+    0 12px 30px
+    rgba(37, 99, 235, 0.25);
+
+}
+
+
+/* =====================================
+   HEADER TEXT
+===================================== */
+
+.bill-header h1 {
+
+  font-size: 30px;
+
+  color: #102a43;
+
+  font-weight: 800;
+
+}
+
+
+.bill-header p {
+
+  color: #64748b;
+
+  font-size: 12px;
+
+  margin-top: 3px;
+
+}
+
+
+/* =====================================
+   BILL TITLE
+===================================== */
+
+.bill-title {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 22px;
+
+  margin-bottom: 25px;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #eff6ff,
+      #ffffff
+    );
+
+  border: 1px solid #dbeafe;
+
+}
+
+
+/* =====================================
+   BILL TITLE HEADING
+===================================== */
+
+.bill-title h2 {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  color: #102a43;
+
+  font-size: 23px;
+
+}
+
+
+.bill-title h2 svg {
+
+  color: #2563eb;
+
+}
+
+
+.bill-title p {
+
+  color: #64748b;
+
+  font-size: 12px;
+
+  margin-top: 6px;
+
+}
+
+
+/* =====================================
+   SUCCESS STATUS
+===================================== */
+
+.bill-status {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  color: #237a52;
+
+  background: #effaf3;
+
+  padding: 10px 18px;
+
+  border-radius: 25px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  border: 1px solid #ccebd8;
+
+}
+
+
+/* =====================================
+   INFORMATION SECTIONS
+===================================== */
+
+.bill-section {
+
+  padding: 25px;
+
+  margin-bottom: 20px;
+
+  border-radius: 20px;
+
+  background: #f8fbff;
+
+  border: 1px solid #e1ebf7;
+
+}
+
+
+/* =====================================
+   SECTION HEADINGS
+===================================== */
+
+.bill-section h3,
+.reading-section h3 {
+
+  color: #1d4ed8;
+
+  font-size: 16px;
+
+  margin-bottom: 20px;
+
+  padding-left: 12px;
+
+  border-left: 4px solid #60a5fa;
+
+}
+
+
+/* =====================================
+   INFORMATION GRID
+===================================== */
+
+.bill-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 15px;
+
+}
+
+
+/* =====================================
+   BILL INFORMATION BOX
+===================================== */
+
+.bill-info {
+
+  padding: 18px;
+
+  background: #ffffff;
+
+  border-radius: 15px;
+
+  border: 1px solid #e5edf7;
+
+  transition: all 0.3s ease;
+
+}
+
+
+.bill-info:hover {
+
+  transform: translateY(-4px);
+
+  border-color: #93c5fd;
+
+  box-shadow:
+    0 10px 25px
+    rgba(37, 99, 235, 0.09);
+
+}
+
+
+/* =====================================
+   BILL INFO LABEL
+===================================== */
+
+.bill-info span {
+
+  display: block;
+
+  color: #64748b;
+
+  font-size: 11px;
+
+  margin-bottom: 7px;
+
+}
+
+
+/* =====================================
+   BILL INFO VALUE
+===================================== */
+
+.bill-info strong {
+
+  color: #172b4d;
+
+  font-size: 14px;
+
+  word-break: break-word;
+
+}
+
+
+/* =====================================
+   PENDING STATUS
+===================================== */
+
+.pending-status {
+
+  color: #2563eb !important;
+
+}
+
+
+/* =====================================
+   METER READING SECTION
+===================================== */
+
+.reading-section {
+
+  padding: 25px;
+
+  margin-bottom: 20px;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f1f7ff,
+      #ffffff
+    );
+
+  border: 1px solid #dce9f8;
+
+}
+
+
+/* =====================================
+   READING GRID
+===================================== */
+
+.reading-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 15px;
+
+}
+
+
+.reading-grid > div {
+
+  padding: 22px 15px;
+
+  text-align: center;
+
+  background: #ffffff;
+
+  border-radius: 16px;
+
+  border: 1px solid #e2eaf5;
+
+  transition: all 0.3s ease;
+
+}
+
+
+.reading-grid > div:hover {
+
+  transform: translateY(-5px);
+
+  border-color: #93c5fd;
+
+  box-shadow:
+    0 12px 25px
+    rgba(37, 99, 235, 0.09);
+
+}
+
+
+/* =====================================
+   READING LABEL
+===================================== */
+
+.reading-grid span {
+
+  display: block;
+
+  color: #64748b;
+
+  font-size: 11px;
+
+  margin-bottom: 8px;
+
+}
+
+
+/* =====================================
+   READING VALUE
+===================================== */
+
+.reading-grid strong {
+
+  color: #1d4ed8;
+
+  font-size: 18px;
+
+}
+
+
+/* =====================================
+   TOTAL BILL
+===================================== */
+
+.bill-total {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 25px;
+
+  margin-top: 25px;
+
+  border-radius: 20px;
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #172554,
+      #1d4ed8,
+      #3b82f6
+    );
+
+  box-shadow:
+    0 15px 35px
+    rgba(29, 78, 216, 0.22);
+
+}
+
+
+.bill-total span {
+
+  font-size: 16px;
+
+  font-weight: 500;
+
+}
+
+
+.bill-total strong {
+
+  font-size: 30px;
+
+  font-weight: 700;
+
+}
+
+
+/* =====================================
+   BUTTON SECTION
+===================================== */
+
+.bill-buttons {
+
+  display: flex;
+
+  gap: 15px;
+
+  margin-top: 30px;
+
+}
+
+
+/* =====================================
+   COMMON BUTTON
+===================================== */
+
+.download-btn,
+.back-btn {
+
+  flex: 1;
+
+  padding: 15px;
+
+  border: none;
+
+  border-radius: 14px;
+
+  cursor: pointer;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 9px;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  transition: all 0.3s ease;
+
+}
+
+
+/* =====================================
+   DOWNLOAD BUTTON
+===================================== */
+
+.download-btn {
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #1d4ed8,
+      #2563eb,
+      #3b82f6
+    );
+
+  box-shadow:
+    0 10px 25px
+    rgba(37, 99, 235, 0.20);
+
+}
+
+
+.download-btn:hover {
+
+  transform: translateY(-4px);
+
+  background:
+    linear-gradient(
+      135deg,
+      #1e40af,
+      #1d4ed8
+    );
+
+  box-shadow:
+    0 15px 30px
+    rgba(37, 99, 235, 0.30);
+
+}
+
+
+/* =====================================
+   BACK BUTTON
+===================================== */
+
+.back-btn {
+
+  color: #1d4ed8;
+
+  background: #eff6ff;
+
+  border: 1px solid #bfdbfe;
+
+}
+
+
+.back-btn:hover {
+
+  color: #ffffff;
+
+  background: #2563eb;
+
+  border-color: #2563eb;
+
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 10px 25px
+    rgba(37, 99, 235, 0.20);
+
+}
+
+
+/* =====================================
+   FOOTER
+===================================== */
+
+.bill-footer {
+
+  text-align: center;
+
+  margin-top: 30px;
+
+  padding-top: 25px;
+
+  border-top: 1px solid #e5edf7;
+
+}
+
+
+/* =====================================
+   FOOTER ICON
+===================================== */
+
+.bill-footer svg {
+
+  color: #2563eb;
+
+  font-size: 20px;
+
+  margin-bottom: 8px;
+
+}
+
+
+/* =====================================
+   FOOTER TEXT
+===================================== */
+
+.bill-footer p {
+
+  color: #475569;
+
+  font-size: 12px;
+
+  margin-bottom: 5px;
+
+}
+
+
+.bill-footer span {
+
+  color: #94a3b8;
+
+  font-size: 10px;
+
+}
+
+
+/* =====================================
+   RESPONSIVE TABLET
+===================================== */
+
+@media (max-width: 800px) {
+
+  .bill-container {
+
+    padding: 28px;
+
+  }
+
+
+  .reading-grid {
+
+    grid-template-columns:
+      repeat(2, 1fr);
+
+  }
+
+}
+
+
+/* =====================================
+   RESPONSIVE MOBILE
+===================================== */
+
+@media (max-width: 650px) {
+
+  .download-bill-page {
+
+    padding: 20px 12px;
+
+  }
+
+
+  .bill-container {
+
+    padding: 22px;
+
+    border-radius: 22px;
+
+  }
+
+
+  .bill-header {
+
+    justify-content: flex-start;
+
+  }
+
+
+  .bill-logo {
+
+    width: 55px;
+
+    height: 55px;
+
+    font-size: 25px;
+
+  }
+
+
+  .bill-header h1 {
+
+    font-size: 25px;
+
+  }
+
+
+  .bill-title {
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+  }
+
+
+  .bill-title h2 {
+
+    font-size: 20px;
+
+  }
+
+
+  .bill-grid {
+
+    grid-template-columns: 1fr;
+
+  }
+
+
+  .reading-grid {
+
+    grid-template-columns: 1fr;
+
+  }
+
+
+  .bill-total {
+
+    padding: 20px;
+
+  }
+
+
+  .bill-total span {
+
+    font-size: 14px;
+
+  }
+
+
+  .bill-total strong {
+
+    font-size: 24px;
+
+  }
+
+
+  .bill-buttons {
+
+    flex-direction: column;
+
+  }
+
+
+  .download-btn,
+  .back-btn {
+
+    width: 100%;
+
+  }
+
+}
+
+
+/* =====================================
+   EXTRA SMALL DEVICES
+===================================== */
+
+@media (max-width: 400px) {
+
+  .download-bill-page {
+
+    padding: 15px 10px;
+
+  }
+
+
+  .bill-container {
+
+    padding: 18px;
+
+  }
+
+
+  .bill-header h1 {
+
+    font-size: 21px;
+
+  }
+
+
+  .bill-header p {
+
+    font-size: 11px;
+
+  }
+
+
+  .bill-title h2 {
+
+    font-size: 18px;
+
+  }
+
+
+  .bill-section,
+  .reading-section {
+
+    padding: 18px;
+
+  }
+
+
+  .bill-total strong {
+
+    font-size: 22px;
+
+  }
+
+
+  .download-btn,
+  .back-btn {
+
+    font-size: 13px;
+
+  }
+
+}

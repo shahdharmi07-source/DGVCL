@@ -1,0 +1,414 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f4f7fb;
+}
+
+/* ==========================
+        OTP PAGE
+========================== */
+
+.otp-page{
+
+    width:100%;
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:30px;
+
+    background:linear-gradient(135deg,#eef4fb,#f8fbff);
+
+}
+
+/* ==========================
+        OTP CARD
+========================== */
+
+.otp-card{
+
+    width:520px;
+    max-width:100%;
+
+    background:#fff;
+
+    border-radius:30px;
+
+    padding:55px 45px;
+
+    text-align:center;
+
+    box-shadow:0 20px 60px rgba(13,91,225,.15);
+
+    animation:fadeIn .6s ease;
+
+}
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(30px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ==========================
+        LOGO
+========================== */
+
+.otp-logo{
+
+    display:flex;
+
+    justify-content:center;
+
+    margin-bottom:25px;
+
+}
+
+.logo-circle{
+
+    width:75px;
+
+    height:75px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    /* BLUE LOGO */
+
+    background:linear-gradient(
+        135deg,
+        #0758dc,
+        #1683f5
+    );
+
+    color:#fff;
+
+    font-size:32px;
+
+    box-shadow:
+        0 10px 25px
+        rgba(13,91,225,.35);
+
+    transition:.35s;
+
+}
+
+/* LOGO HOVER */
+
+.logo-circle:hover{
+
+    transform:
+        rotate(-8deg)
+        scale(1.05);
+
+    box-shadow:
+        0 15px 35px
+        rgba(13,91,225,.45);
+
+}
+
+/* ==========================
+        TITLE
+========================== */
+
+.otp-card h1{
+
+    font-size:38px;
+
+    color:#09245c;
+
+    font-weight:800;
+
+    margin-bottom:15px;
+
+}
+
+.otp-card p{
+
+    color:#666;
+
+    font-size:16px;
+
+    line-height:1.8;
+
+    margin-bottom:35px;
+
+}
+
+/* ==========================
+        OTP INPUT
+========================== */
+
+.otp-card input{
+
+    width:100%;
+
+    height:62px;
+
+    border:2px solid #e5e5e5;
+
+    border-radius:15px;
+
+    outline:none;
+
+    padding:0 20px;
+
+    text-align:center;
+
+    font-size:24px;
+
+    font-weight:700;
+
+    letter-spacing:8px;
+
+    color:#09245c;
+
+    transition:.35s;
+
+}
+
+/* INPUT FOCUS BLUE */
+
+.otp-card input:focus{
+
+    border-color:#0d5be1;
+
+    box-shadow:
+        0 0 0 5px
+        rgba(13,91,225,.12);
+
+}
+
+/* ==========================
+      VERIFY BUTTON
+========================== */
+
+.otp-card button{
+
+    width:100%;
+
+    height:60px;
+
+    margin-top:30px;
+
+    border:none;
+
+    border-radius:15px;
+
+    /* BLUE BUTTON */
+
+    background:linear-gradient(
+        135deg,
+        #0758dc,
+        #1683f5
+    );
+
+    color:#fff;
+
+    font-size:18px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.35s;
+
+    box-shadow:
+        0 10px 25px
+        rgba(13,91,225,.35);
+
+}
+
+/* BUTTON HOVER */
+
+.otp-card button:hover{
+
+    transform:translateY(-4px);
+
+    background:linear-gradient(
+        135deg,
+        #064fc7,
+        #0d6fe8
+    );
+
+    box-shadow:
+        0 18px 35px
+        rgba(13,91,225,.45);
+
+}
+
+/* ==========================
+      RESEND OTP
+========================== */
+
+.otp-footer{
+
+    margin-top:25px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+
+}
+
+.otp-footer span{
+
+    color:#666;
+
+    font-size:15px;
+
+}
+
+.resend-btn{
+
+    background:none !important;
+
+    border:none;
+
+    color:#0d5be1 !important;
+
+    font-size:16px !important;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    box-shadow:none !important;
+
+    margin:0 !important;
+
+    width:auto !important;
+
+    height:auto !important;
+
+    padding:0 !important;
+
+    transition:.3s;
+
+}
+
+.resend-btn:hover{
+
+    color:#064fc7 !important;
+
+    transform:none !important;
+
+    text-decoration:underline;
+
+}
+
+/* ==========================
+      BACK BUTTON
+========================== */
+
+.back-btn{
+
+    margin-top:35px;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    text-decoration:none;
+
+    color:#0d5be1;
+
+    font-weight:600;
+
+    font-size:16px;
+
+    transition:.3s;
+
+}
+
+.back-btn:hover{
+
+    color:#064fc7;
+
+    transform:translateX(-5px);
+
+}
+
+/* ==========================
+      RESPONSIVE
+========================== */
+
+@media(max-width:600px){
+
+    .otp-card{
+
+        padding:35px 25px;
+
+    }
+
+    .otp-card h1{
+
+        font-size:30px;
+
+    }
+
+    .otp-card input{
+
+        height:55px;
+
+        font-size:20px;
+
+        letter-spacing:5px;
+
+    }
+
+    .otp-card button{
+
+        height:55px;
+
+        font-size:17px;
+
+    }
+
+    .logo-circle{
+
+        width:65px;
+
+        height:65px;
+
+        font-size:28px;
+
+    }
+
+}

@@ -1,0 +1,566 @@
+/* ==========================================
+   BILLS PAGE
+========================================== */
+
+.bills-page {
+  min-height: 100vh;
+  padding: 40px 60px;
+  background: #f4f7fb;
+  font-family: "Poppins", sans-serif;
+}
+
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.bills-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 35px;
+}
+
+
+.bills-title {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+
+/* ==========================================
+   BILLS ICON - BLUE
+========================================== */
+
+.bills-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(
+    135deg,
+    #0758dc,
+    #1683f5
+  );
+
+  color: white;
+  font-size: 25px;
+
+  box-shadow:
+    0 8px 20px
+    rgba(13, 91, 225, 0.25);
+}
+
+
+.bills-title h1 {
+  margin: 0;
+  font-size: 28px;
+  color: #172033;
+}
+
+
+.bills-title p {
+  margin: 5px 0 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+
+/* ==========================================
+   BACK TO DASHBOARD
+========================================== */
+
+.back-dashboard {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  text-decoration: none;
+
+  background: white;
+
+  color: #0d5be1;
+
+  padding: 12px 20px;
+
+  border-radius: 10px;
+
+  font-weight: 600;
+
+  border: 1px solid #eeeeee;
+
+  transition: 0.3s;
+}
+
+
+.back-dashboard:hover {
+
+  background: #0d5be1;
+
+  color: white;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 20px
+    rgba(13, 91, 225, 0.25);
+
+}
+
+
+/* ==========================================
+   BILLS CONTAINER
+========================================== */
+
+.bills-container {
+  display: grid;
+
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(350px, 1fr)
+  );
+
+  gap: 25px;
+}
+
+
+/* ==========================================
+   BILL CARD
+========================================== */
+
+.bill-card {
+  background: white;
+
+  border-radius: 18px;
+
+  padding: 25px;
+
+  box-shadow:
+    0 8px 30px
+    rgba(0, 0, 0, 0.07);
+
+  border: 1px solid #eeeeee;
+
+  transition: 0.3s;
+}
+
+
+.bill-card:hover {
+
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 15px 35px
+    rgba(0, 0, 0, 0.1);
+
+}
+
+
+/* ==========================================
+   BILL CARD HEADER
+========================================== */
+
+.bill-card-header {
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+
+  padding-bottom: 20px;
+
+  border-bottom: 1px solid #eeeeee;
+}
+
+
+.bill-card-header h2 {
+  margin: 0;
+
+  color: #172033;
+
+  font-size: 21px;
+}
+
+
+.bill-card-header p {
+  margin: 6px 0 0;
+
+  color: #777777;
+
+  font-size: 13px;
+}
+
+
+/* ==========================================
+   STATUS
+========================================== */
+
+.status {
+  padding: 7px 14px;
+
+  border-radius: 20px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+}
+
+
+/* PENDING - BLUE */
+.status.pending {
+
+  background: #eaf2ff;
+
+  color: #0d5be1;
+
+}
+
+
+/* PAID - GREEN */
+.status.paid {
+
+  background: #e8f8ef;
+
+  color: #168a4a;
+
+}
+
+
+/* ==========================================
+   BILL DETAILS
+========================================== */
+
+.bill-details {
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 20px;
+
+  padding: 25px 0;
+
+}
+
+
+.bill-details div {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 5px;
+
+}
+
+
+.bill-details span {
+
+  color: #888888;
+
+  font-size: 12px;
+
+}
+
+
+.bill-details strong {
+
+  color: #202838;
+
+  font-size: 15px;
+
+}
+
+
+/* ==========================================
+   PAY BILL BUTTON - BLUE
+========================================== */
+
+.pay-bill-btn {
+
+  width: 100%;
+
+  border: none;
+
+  padding: 13px;
+
+  border-radius: 10px;
+
+  background: linear-gradient(
+    135deg,
+    #0758dc,
+    #1683f5
+  );
+
+  color: white;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+
+  box-shadow:
+    0 8px 20px
+    rgba(13, 91, 225, 0.25);
+
+}
+
+
+.pay-bill-btn:hover {
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 10px 25px
+    rgba(13, 91, 225, 0.35);
+
+}
+
+
+/* ==========================================
+   PAID MESSAGE
+========================================== */
+
+.paid-message {
+
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 13px;
+
+  text-align: center;
+
+  border-radius: 10px;
+
+  background: #e8f8ef;
+
+  color: #168a4a;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+}
+
+
+/* ==========================================
+   NO BILLS
+========================================== */
+
+.no-bills {
+
+  max-width: 600px;
+
+  margin: 80px auto;
+
+  padding: 50px 30px;
+
+  text-align: center;
+
+  background: white;
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 10px 30px
+    rgba(0, 0, 0, 0.06);
+
+}
+
+
+.no-bills svg {
+
+  font-size: 50px;
+
+  color: #0d5be1;
+
+  margin-bottom: 15px;
+
+}
+
+
+.no-bills h2 {
+
+  margin: 5px 0;
+
+  color: #172033;
+
+}
+
+
+.no-bills p {
+
+  color: #777777;
+
+  font-size: 14px;
+
+}
+
+
+/* ==========================================
+   ERROR MESSAGE
+========================================== */
+
+.bills-error {
+
+  max-width: 600px;
+
+  margin: 50px auto;
+
+  padding: 18px;
+
+  text-align: center;
+
+  border-radius: 10px;
+
+  background: #fff0f0;
+
+  color: #d63031;
+
+  font-weight: 600;
+
+}
+
+
+/* ==========================================
+   LOADING
+========================================== */
+
+.bills-loading {
+
+  min-height: 80vh;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+
+}
+
+
+.bills-loading svg {
+
+  font-size: 45px;
+
+  color: #0d5be1;
+
+  margin-bottom: 15px;
+
+  animation: boltPulse 1s infinite;
+
+}
+
+
+.bills-loading h2 {
+
+  margin: 5px 0;
+
+  color: #172033;
+
+}
+
+
+.bills-loading p {
+
+  color: #777777;
+
+}
+
+
+/* ==========================================
+   LOADING ANIMATION
+========================================== */
+
+@keyframes boltPulse {
+
+  0% {
+
+    transform: scale(1);
+
+  }
+
+  50% {
+
+    transform: scale(1.2);
+
+  }
+
+  100% {
+
+    transform: scale(1);
+
+  }
+
+}
+
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 768px) {
+
+  .bills-page {
+
+    padding: 25px 20px;
+
+  }
+
+
+  .bills-header {
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 20px;
+
+  }
+
+
+  .bills-title h1 {
+
+    font-size: 23px;
+
+  }
+
+
+  .back-dashboard {
+
+    width: 100%;
+
+    justify-content: center;
+
+    box-sizing: border-box;
+
+  }
+
+
+  .bills-container {
+
+    grid-template-columns: 1fr;
+
+  }
+
+
+  .bill-details {
+
+    grid-template-columns: 1fr;
+
+  }
+
+}

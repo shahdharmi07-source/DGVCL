@@ -1,0 +1,583 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap");
+
+
+/* =========================================
+   GLOBAL
+========================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: #f5f9ff;
+  color: #17346d;
+}
+
+
+/* =========================================
+   REGISTER PAGE
+========================================= */
+
+.register-page {
+
+  min-height: 100vh;
+
+  width: 100%;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  padding: 50px 20px;
+
+  font-family: "Poppins", sans-serif;
+
+  /* BLUE & WHITE BACKGROUND */
+
+  background:
+    radial-gradient(
+      circle at 10% 10%,
+      rgba(13, 91, 225, 0.12),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 90% 90%,
+      rgba(22, 131, 245, 0.12),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #f8fbff,
+      #eef6ff
+    );
+
+}
+
+
+/* =========================================
+   REGISTER CARD
+========================================= */
+
+.register-card {
+
+  width: 100%;
+
+  max-width: 520px;
+
+  padding: 40px;
+
+  background: rgba(255, 255, 255, 0.97);
+
+  border: 1px solid #dce9f8;
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 20px 55px
+    rgba(13, 91, 225, 0.15);
+
+  position: relative;
+
+  overflow: hidden;
+
+}
+
+
+/* =========================================
+   TOP BLUE DECORATION
+========================================= */
+
+.register-card::before {
+
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+
+  left: 0;
+
+  right: 0;
+
+  height: 5px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #0758dc,
+      #1683f5
+    );
+
+  border-radius:
+    24px 24px 0 0;
+
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.register-header {
+
+  text-align: center;
+
+  margin-bottom: 30px;
+
+}
+
+
+/* DGPS */
+
+.register-header h1 {
+
+  margin: 0;
+
+  font-size: 34px;
+
+  font-weight: 800;
+
+  color: #0758dc;
+
+  letter-spacing: 1px;
+
+}
+
+
+/* CREATE ACCOUNT */
+
+.register-header h2 {
+
+  margin-top: 7px;
+
+  margin-bottom: 8px;
+
+  color: #09245c;
+
+  font-size: 22px;
+
+  font-weight: 600;
+
+}
+
+
+/* DESCRIPTION */
+
+.register-header p {
+
+  margin-top: 8px;
+
+  color: #6b7c99;
+
+  font-size: 13px;
+
+  line-height: 1.7;
+
+}
+
+
+/* =========================================
+   SUCCESS MESSAGE
+========================================= */
+
+.register-message {
+
+  width: 100%;
+
+  padding: 12px 15px;
+
+  margin-bottom: 20px;
+
+  text-align: center;
+
+  border-radius: 10px;
+
+  color: #0758dc;
+
+  background: #eef6ff;
+
+  border: 1px solid #cfe2ff;
+
+  font-size: 13px;
+
+}
+
+
+/* =========================================
+   FORM GROUP
+========================================= */
+
+.form-group {
+
+  width: 100%;
+
+  margin-bottom: 18px;
+
+}
+
+
+.form-group label {
+
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #17346d;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+}
+
+
+/* =========================================
+   INPUTS
+========================================= */
+
+.form-group input,
+
+.form-group textarea {
+
+  width: 100%;
+
+  padding: 14px 15px;
+
+  outline: none;
+
+  border: 1px solid #dce7f5;
+
+  border-radius: 11px;
+
+  background: #f8fbff;
+
+  color: #17346d;
+
+  font-family: "Poppins", sans-serif;
+
+  font-size: 13px;
+
+  transition: all 0.25s ease;
+
+}
+
+
+/* =========================================
+   PLACEHOLDER
+========================================= */
+
+.form-group input::placeholder,
+
+.form-group textarea::placeholder {
+
+  color: #9aa9bd;
+
+}
+
+
+/* =========================================
+   TEXTAREA
+========================================= */
+
+.form-group textarea {
+
+  min-height: 85px;
+
+  resize: none;
+
+}
+
+
+/* =========================================
+   INPUT HOVER
+========================================= */
+
+.form-group input:hover,
+
+.form-group textarea:hover {
+
+  border-color: #8db9f5;
+
+}
+
+
+/* =========================================
+   INPUT FOCUS
+========================================= */
+
+.form-group input:focus,
+
+.form-group textarea:focus {
+
+  outline: none;
+
+  border-color: #0d5be1;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(13, 91, 225, 0.12);
+
+}
+
+
+/* =========================================
+   REGISTER BUTTON
+========================================= */
+
+.register-btn {
+
+  width: 100%;
+
+  padding: 14px 20px;
+
+  margin-top: 5px;
+
+  border: none;
+
+  border-radius: 11px;
+
+  cursor: pointer;
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #0758dc,
+      #1683f5
+    );
+
+  font-family: "Poppins", sans-serif;
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+  box-shadow:
+    0 10px 25px
+    rgba(13, 91, 225, 0.25);
+
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+
+}
+
+
+/* =========================================
+   BUTTON HOVER
+========================================= */
+
+.register-btn:hover {
+
+  background:
+    linear-gradient(
+      135deg,
+      #064fc7,
+      #0d6fe8
+    );
+
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 15px 30px
+    rgba(13, 91, 225, 0.35);
+
+}
+
+
+/* =========================================
+   BUTTON CLICK
+========================================= */
+
+.register-btn:active {
+
+  transform: translateY(0);
+
+  box-shadow:
+    0 5px 12px
+    rgba(13, 91, 225, 0.20);
+
+}
+
+
+/* =========================================
+   LOGIN SECTION
+========================================= */
+
+.login-text {
+
+  margin-top: 22px;
+
+  text-align: center;
+
+  color: #7b8ba3;
+
+  font-size: 13px;
+
+}
+
+
+/* LOGIN BUTTON */
+
+.login-text button {
+
+  margin-left: 5px;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  color: #0758dc;
+
+  font-family: "Poppins", sans-serif;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  transition: color 0.25s ease;
+
+}
+
+
+/* LOGIN HOVER */
+
+.login-text button:hover {
+
+  color: #064fc7;
+
+  text-decoration: underline;
+
+}
+
+
+/* =========================================
+   RESPONSIVE - TABLET
+========================================= */
+
+@media (max-width: 600px) {
+
+  .register-page {
+
+    padding: 30px 15px;
+
+  }
+
+
+  .register-card {
+
+    padding: 34px 25px;
+
+    border-radius: 20px;
+
+  }
+
+
+  .register-header h1 {
+
+    font-size: 30px;
+
+  }
+
+
+  .register-header h2 {
+
+    font-size: 20px;
+
+  }
+
+}
+
+
+/* =========================================
+   RESPONSIVE - MOBILE
+========================================= */
+
+@media (max-width: 400px) {
+
+  .register-page {
+
+    padding: 20px 12px;
+
+  }
+
+
+  .register-card {
+
+    padding: 30px 20px;
+
+    border-radius: 18px;
+
+  }
+
+
+  .register-header {
+
+    margin-bottom: 24px;
+
+  }
+
+
+  .register-header h1 {
+
+    font-size: 27px;
+
+  }
+
+
+  .register-header h2 {
+
+    font-size: 18px;
+
+  }
+
+
+  .register-header p {
+
+    font-size: 12px;
+
+  }
+
+
+  .form-group input,
+
+  .form-group textarea {
+
+    padding: 12px;
+
+  }
+
+
+  .register-btn {
+
+    padding: 13px;
+
+  }
+
+
+  .login-text {
+
+    font-size: 12px;
+
+  }
+
+}
