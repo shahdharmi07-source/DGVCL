@@ -336,15 +336,11 @@
 ========================================= */
 
 .login-btn {
-
     width: 170px;
-
     height: 66px;
 
     display: flex;
-
     justify-content: center;
-
     align-items: center;
 
     gap: 10px;
@@ -362,8 +358,13 @@
     border-radius: 20px;
 
     font-size: 19px;
-
     font-weight: 600;
+
+    /* Login ko thoda center ki taraf */
+    margin-right: 45px;
+
+    /* Login ko thoda upar */
+    transform: translateY(-5px);
 
     box-shadow:
         0 10px 25px
@@ -373,9 +374,7 @@
         transform 0.35s ease,
         box-shadow 0.35s ease,
         background 0.35s ease;
-
 }
-
 
 /* =========================================
             LOGIN HOVER

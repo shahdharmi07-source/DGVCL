@@ -2,6 +2,12 @@ const mongoose = require("mongoose");
 
 const billSchema = new mongoose.Schema(
   {
+    consumerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+
     consumerNumber: {
       type: String,
       required: true,
@@ -13,7 +19,7 @@ const billSchema = new mongoose.Schema(
       unique: true,
     },
 
-    month: {
+    billingMonth: {
       type: String,
       required: true,
     },
@@ -21,20 +27,74 @@ const billSchema = new mongoose.Schema(
     units: {
       type: Number,
       required: true,
+      default: 0,
     },
 
-    amount: {
+    ratePerUnit: {
       type: Number,
       required: true,
+      default: 6.5,
+    },
+
+    usageCharge: {
+      type: Number,
+      default: 0,
+    },
+
+    fixedCharge: {
+      type: Number,
+      default: 0,
+    },
+
+    additionalCharge: {
+      type: Number,
+      default: 0,
+    },
+
+    subtotal: {
+      type: Number,
+      default: 0,
+    },
+
+    taxRate: {
+      type: Number,
+      default: 5,
+    },
+
+    tax: {
+      type: Number,
+      default: 0,
+    },
+
+    previousDue: {
+      type: Number,
+      default: 0,
+    },
+
+    lateFee: {
+      type: Number,
+      default: 0,
+    },
+
+    credit: {
+      type: Number,
+      default: 0,
+    },
+
+    billAmount: {
+      type: Number,
+      required: true,
+      default: 0,
     },
 
     dueDate: {
-      type: String,
+      type: Date,
       required: true,
     },
 
     status: {
       type: String,
+      enum: ["Paid", "Pending", "Overdue"],
       default: "Pending",
     },
   },

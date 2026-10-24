@@ -1,0 +1,819 @@
+/* =====================================================
+   COMPLAINT MANAGEMENT PAGE
+===================================================== */
+
+.complaint-management {
+  min-height: 100vh;
+  background: #f4f7fb;
+  padding: 30px;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.complaint-management-header {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 22px 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  box-shadow: 0 8px 25px rgba(15, 55, 95, 0.08);
+  margin-bottom: 25px;
+  box-sizing: border-box;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  min-width: 0;
+}
+
+.back-button {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 12px;
+  background: #eef5ff;
+  color: #1565c0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.25s ease;
+  flex-shrink: 0;
+}
+
+.back-button:hover {
+  background: #1565c0;
+  color: #ffffff;
+  transform: translateX(-2px);
+}
+
+.header-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 15px;
+  background: #e8f2ff;
+  color: #1565c0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.complaint-management-header span {
+  display: block;
+  color: #1565c0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  margin-bottom: 3px;
+}
+
+.complaint-management-header h1 {
+  margin: 0;
+  color: #172b4d;
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.complaint-management-header p {
+  margin: 4px 0 0;
+  color: #7a8797;
+  font-size: 13px;
+}
+
+
+/* =====================================================
+   REFRESH BUTTON
+===================================================== */
+
+.refresh-button {
+  border: none;
+  background: #1565c0;
+  color: #ffffff;
+  padding: 11px 18px;
+  border-radius: 11px;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: 0.25s ease;
+  flex-shrink: 0;
+}
+
+.refresh-button:hover {
+  background: #0d47a1;
+  transform: translateY(-1px);
+}
+
+.refresh-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+
+/* =====================================================
+   STAT CARDS
+===================================================== */
+
+.complaint-stats {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.complaint-stat-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 7px 22px rgba(15, 55, 95, 0.07);
+  border: 1px solid #edf1f6;
+}
+
+.stat-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.stat-icon.total {
+  background: #e8f2ff;
+  color: #1565c0;
+}
+
+.stat-icon.pending {
+  background: #fff5df;
+  color: #e69b00;
+}
+
+.stat-icon.progress {
+  background: #eaf3ff;
+  color: #1976d2;
+}
+
+.stat-icon.resolved {
+  background: #e8f8ef;
+  color: #168a4a;
+}
+
+.complaint-stat-card span {
+  display: block;
+  color: #7b8794;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.complaint-stat-card strong {
+  display: block;
+  color: #172b4d;
+  font-size: 23px;
+  font-weight: 700;
+}
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+.complaint-search {
+  width: 100%;
+  max-width: 500px;
+  height: 46px;
+  background: #ffffff;
+  border: 1px solid #e1e7ef;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 13px;
+  margin-bottom: 18px;
+  box-sizing: border-box;
+  box-shadow: 0 5px 16px rgba(15, 55, 95, 0.05);
+}
+
+.complaint-search > svg {
+  color: #8b98a9;
+  font-size: 15px;
+}
+
+.complaint-search input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #172b4d;
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+}
+
+.complaint-search input::placeholder {
+  color: #a0a9b5;
+}
+
+.complaint-search button {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 8px;
+  background: #f1f4f8;
+  color: #7b8794;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.complaint-search button:hover {
+  background: #e5eaf0;
+  color: #333333;
+}
+
+
+/* =====================================================
+   TABLE CARD
+===================================================== */
+
+.complaint-table-card {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 8px 28px rgba(15, 55, 95, 0.08);
+  border: 1px solid #edf1f6;
+  overflow: hidden;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table-wrapper table {
+  width: 100%;
+  min-width: 1050px;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+
+/* =====================================================
+   TABLE HEADER
+===================================================== */
+
+.table-wrapper thead {
+  background: #f7faff;
+}
+
+.table-wrapper th {
+  padding: 16px 14px;
+  text-align: left;
+  color: #526173;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  border-bottom: 1px solid #e8edf3;
+  white-space: nowrap;
+}
+
+.table-wrapper th:nth-child(1) {
+  width: 145px;
+}
+
+.table-wrapper th:nth-child(2) {
+  width: 130px;
+}
+
+.table-wrapper th:nth-child(3) {
+  width: 170px;
+}
+
+.table-wrapper th:nth-child(4) {
+  width: 250px;
+}
+
+.table-wrapper th:nth-child(5) {
+  width: 125px;
+}
+
+.table-wrapper th:nth-child(6) {
+  width: 105px;
+}
+
+.table-wrapper th:nth-child(7) {
+  width: 110px;
+}
+
+
+/* =====================================================
+   TABLE BODY
+===================================================== */
+
+.table-wrapper td {
+  padding: 16px 14px;
+  border-bottom: 1px solid #eef2f6;
+  color: #4d5b6b;
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+.table-wrapper tbody tr {
+  transition: 0.2s ease;
+}
+
+.table-wrapper tbody tr:hover {
+  background: #f9fbfe;
+}
+
+.table-wrapper tbody tr:last-child td {
+  border-bottom: none;
+}
+
+
+/* =====================================================
+   CONSUMER NUMBER
+===================================================== */
+
+.consumer-number {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #34465a;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.consumer-number svg {
+  color: #1565c0;
+}
+
+
+/* =====================================================
+   COMPLAINT ID
+===================================================== */
+
+.complaint-id {
+  display: inline-block;
+  background: #eef5ff;
+  color: #1565c0;
+  padding: 6px 9px;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+
+/* =====================================================
+   CATEGORY
+===================================================== */
+
+.category-badge {
+  display: inline-block;
+  background: #f2f5f8;
+  color: #536273;
+  padding: 6px 9px;
+  border-radius: 7px;
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+
+/* =====================================================
+   DESCRIPTION
+===================================================== */
+
+.description-cell {
+  color: #5d6978;
+  line-height: 1.5;
+  max-width: 240px;
+  white-space: normal;
+  word-break: break-word;
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-badge.pending {
+  background: #fff5df;
+  color: #d58c00;
+}
+
+.status-badge.progress {
+  background: #e9f3ff;
+  color: #1976d2;
+}
+
+.status-badge.resolved {
+  background: #e8f8ef;
+  color: #168a4a;
+}
+
+
+/* =====================================================
+   ACTION BUTTONS
+===================================================== */
+
+/*
+   Important:
+   Buttons ko left side me chipakne se bachane ke liye
+   action-buttons ko center kiya gaya hai.
+*/
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: 100%;
+}
+
+.edit-button,
+.delete-button {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-size: 13px;
+}
+
+.edit-button {
+  background: #eaf3ff;
+  color: #1565c0;
+}
+
+.edit-button:hover {
+  background: #1565c0;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(21, 101, 192, 0.22);
+}
+
+.delete-button {
+  background: #fff0f0;
+  color: #d64545;
+}
+
+.delete-button:hover {
+  background: #d64545;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(214, 69, 69, 0.2);
+}
+
+
+/* =====================================================
+   EMPTY STATE
+===================================================== */
+
+.complaint-empty,
+.complaint-loading {
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 35px;
+}
+
+.complaint-empty > svg {
+  font-size: 42px;
+  color: #9eabb9;
+  margin-bottom: 12px;
+}
+
+.complaint-loading > svg {
+  font-size: 28px;
+  color: #1565c0;
+  margin-bottom: 12px;
+}
+
+.complaint-empty h3,
+.complaint-loading h3 {
+  margin: 0 0 5px;
+  color: #34465a;
+  font-size: 17px;
+}
+
+.complaint-empty p,
+.complaint-loading p {
+  margin: 0;
+  color: #8a96a5;
+  font-size: 13px;
+}
+
+
+/* =====================================================
+   LOADING ANIMATION
+===================================================== */
+
+.spin {
+  animation: spinAnimation 1s linear infinite;
+}
+
+@keyframes spinAnimation {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* =====================================================
+   MODAL OVERLAY
+===================================================== */
+
+.complaint-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 35, 55, 0.55);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 9999;
+  box-sizing: border-box;
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.complaint-modal {
+  width: 100%;
+  max-width: 530px;
+  background: #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.22);
+  animation: modalOpen 0.25s ease;
+}
+
+@keyframes modalOpen {
+  from {
+    opacity: 0;
+    transform: translateY(15px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+/* =====================================================
+   MODAL HEADER
+===================================================== */
+
+.modal-header {
+  padding: 20px 22px;
+  background: #f7faff;
+  border-bottom: 1px solid #e8edf3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.modal-header span {
+  display: block;
+  color: #1565c0;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  margin-bottom: 4px;
+}
+
+.modal-header h2 {
+  margin: 0;
+  color: #172b4d;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.modal-header > button {
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 9px;
+  background: #edf1f5;
+  color: #667384;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.modal-header > button:hover {
+  background: #e1e6ec;
+  color: #333333;
+}
+
+
+/* =====================================================
+   MODAL BODY
+===================================================== */
+
+.modal-body {
+  padding: 23px;
+}
+
+.modal-body label {
+  display: block;
+  color: #34465a;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.modal-body select,
+.modal-body textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #dce3eb;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #34465a;
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.modal-body select {
+  height: 44px;
+  padding: 0 12px;
+  margin-bottom: 18px;
+  cursor: pointer;
+}
+
+.modal-body textarea {
+  min-height: 105px;
+  resize: vertical;
+  padding: 12px;
+  margin-bottom: 20px;
+}
+
+.modal-body select:focus,
+.modal-body textarea:focus {
+  border-color: #1565c0;
+  box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.1);
+}
+
+
+/* =====================================================
+   MODAL ACTIONS
+===================================================== */
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.cancel-button,
+.save-button {
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 10px;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: "Poppins", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.cancel-button {
+  background: #f0f3f6;
+  color: #5e6b7a;
+}
+
+.cancel-button:hover {
+  background: #e4e8ed;
+  color: #333333;
+}
+
+.save-button {
+  background: #1565c0;
+  color: #ffffff;
+}
+
+.save-button:hover {
+  background: #0d47a1;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(21, 101, 192, 0.2);
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 1000px) {
+
+  .complaint-management {
+    padding: 20px;
+  }
+
+  .complaint-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}
+
+@media (max-width: 650px) {
+
+  .complaint-management {
+    padding: 14px;
+  }
+
+  .complaint-management-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .refresh-button {
+    width: 100%;
+  }
+
+  .complaint-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .complaint-search {
+    max-width: 100%;
+  }
+
+  .complaint-modal-overlay {
+    padding: 12px;
+  }
+
+  .complaint-modal {
+    border-radius: 16px;
+  }
+
+  .modal-actions {
+    flex-direction: column-reverse;
+  }
+
+  .cancel-button,
+  .save-button {
+    width: 100%;
+  }
+}

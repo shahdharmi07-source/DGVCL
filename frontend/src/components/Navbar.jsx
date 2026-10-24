@@ -1,16 +1,23 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FaBolt, FaUserAlt } from "react-icons/fa";
+
 import "../styles/navbar.css";
 
 function Navbar() {
+  const location = useLocation();
+
   return (
     <div className="navbar-wrapper">
 
       <header className="navbar">
 
-        {/* Logo */}
-        <div className="logo">
+        {/* ==============================
+            LOGO
+        ============================== */}
+
+        <Link to="/" className="logo">
+
           <div className="logo-circle">
             <FaBolt />
           </div>
@@ -19,23 +26,79 @@ function Navbar() {
             <h2>DGPS</h2>
             <span>Smart Consumer Portal</span>
           </div>
-        </div>
 
-        {/* Menu */}
+        </Link>
+
+
+        {/* ==============================
+            NAVIGATION MENU
+        ============================== */}
+
         <nav className="nav-menu">
-          <Link to="/" className="active">Home</Link>
-          <Link to="/services">Service</Link>
-          <Link to="/about">About Us</Link>
-          <Link to="/contact">Contact Us</Link>
+
+          <Link
+            to="/"
+            className={location.pathname === "/" ? "active" : ""}
+          >
+            Home
+          </Link>
+
+          <Link
+            to="/services"
+            className={
+              location.pathname === "/services"
+                ? "active"
+                : ""
+            }
+          >
+            Services
+          </Link>
+
+          <Link
+            to="/about"
+            className={
+              location.pathname === "/about"
+                ? "active"
+                : ""
+            }
+          >
+            About Us
+          </Link>
+
+          <Link
+            to="/contact"
+            className={
+              location.pathname === "/contact"
+                ? "active"
+                : ""
+            }
+          >
+            Contact Us
+          </Link>
+
         </nav>
 
-      </header>
 
-      {/* Login Button (Navbar ke bahar) */}
-      <Link to="/login" className="login-btn">
-        <FaUserAlt />
-        <span>Login</span>
-      </Link>
+        {/* ==============================
+            LOGIN BUTTON
+        ============================== */}
+
+        <Link
+          to="/login"
+          className={
+            location.pathname === "/login"
+              ? "login-btn active-login"
+              : "login-btn"
+          }
+        >
+
+          <FaUserAlt />
+
+          <span>Login</span>
+
+        </Link>
+
+      </header>
 
     </div>
   );

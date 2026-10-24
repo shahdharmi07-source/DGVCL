@@ -11,13 +11,20 @@ import Login from "./pages/Login";
 import Otp from "./pages/Otp";
 import Services from "./pages/Services";
 import ContactUs from "./pages/ContactUs";
-import ConsumerDashboard from "./pages/Dashboard";
 import DownloadBill from "./pages/DownloadBill";
 import Complaint from "./pages/Complaint";
 import Usage from "./pages/Usage";
 import CreateBill from "./pages/CreateBill";
 import MyProfile from "./pages/MyProfile";
 import PaymentHistory from "./pages/PaymentHistory";
+import Notification from "./pages/Notification";
+import AdminLogin from "./pages/AdminLogin";
+import AdminDashboard from "./pages/AdminDashboard";
+import ConsumerManagement from "./pages/ConsumerManagement";
+import BillsManagement from "./pages/BillsManagement";
+import Dashboard from "./pages/Dashboard";
+import PaymentsManagement from "./pages/PaymentsManagement";
+import ComplaintManagement from "./pages/ComplaintManagement";
 
 function App() {
   return (
@@ -44,8 +51,6 @@ function App() {
 
         <Route path="/contact" element={<ContactUs />} />
 
-        <Route path="/dashboard" element={<ConsumerDashboard />} />
-
         <Route path="/downloadbill" element={<DownloadBill />} />
 
         <Route path="/complaint" element={<Complaint />} />
@@ -58,6 +63,21 @@ function App() {
 
          <Route path="/paymenthistory" element={<PaymentHistory />} />
 
+        <Route path="/notification" element={<Notification />} />
+
+        <Route path="/admin-login" element={<AdminLogin />} />
+
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+
+        <Route path="/consumer-management" element={<ConsumerManagement />} />
+
+        <Route path="/bills-management" element={<BillsManagement />} />
+
+        <Route path="/dashboard" element={<Dashboard />} />
+
+        <Route path="/payments-management" element={<PaymentsManagement />} />
+
+        <Route path="/complaints-management" element={<ComplaintManagement />} />
       </Routes>
 
       <ToastContainer

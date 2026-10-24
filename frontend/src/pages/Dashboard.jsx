@@ -14,13 +14,12 @@ import {
   FaCreditCard,
   FaDownload,
   FaChartLine,
-  FaLightbulb
+  FaLightbulb,
 } from "react-icons/fa";
 
 import "../styles/dashboard.css";
 
 function ConsumerDashboard() {
-
   const navigate = useNavigate();
 
   // ==========================================
@@ -34,215 +33,245 @@ function ConsumerDashboard() {
   // ==========================================
 
   const [bills, setBills] = useState([]);
-
   const [loadingBills, setLoadingBills] = useState(true);
 
+  // ==========================================
+  // NOTIFICATION DATA
+  // ==========================================
+
+  const [notifications, setNotifications] = useState([]);
+  const [loadingNotifications, setLoadingNotifications] =
+    useState(true);
 
   // ==========================================
-  // GET USER DATA
-  // AND GET BILLS
+  // GET USER + BILLS + NOTIFICATIONS
   // ==========================================
 
   useEffect(() => {
+    const savedUser = localStorage.getItem("loggedInUser");
 
-    // Get logged in user
-    const savedUser =
-      localStorage.getItem("loggedInUser");
+    // ==========================================
+    // CHECK LOGIN
+    // ==========================================
 
-
-    // If user is not logged in
     if (!savedUser) {
-
       navigate("/login");
-
       return;
-
     }
 
-
     try {
+      // ==========================================
+      // CONVERT USER DATA
+      // ==========================================
 
-      // Convert saved user string to object
-      const userData =
-        JSON.parse(savedUser);
+      const userData = JSON.parse(savedUser);
 
+      // ==========================================
+      // SAVE USER DATA
+      // ==========================================
 
-      // Save user data
       setConsumer(userData);
 
+      // ==========================================
+      // GET CONSUMER NUMBER
+      // ==========================================
 
-      // Get consumer number
-      const consumerNumber =
-        userData.consumerNumber;
+      const consumerNumber = userData.consumerNumber;
 
+      // ==========================================
+      // CHECK CONSUMER NUMBER
+      // ==========================================
 
-      // Check consumer number
       if (!consumerNumber) {
-
-        console.log(
-          "Consumer Number not found"
-        );
+        console.log("Consumer Number not found");
 
         setLoadingBills(false);
+        setLoadingNotifications(false);
 
         return;
-
       }
-
 
       // ==========================================
       // GET BILLS FROM BACKEND
       // ==========================================
 
       fetch(
-
         `http://localhost:5000/api/bills/${consumerNumber}`
-
       )
-
         .then((response) => {
-
           if (!response.ok) {
-
-            throw new Error(
-              "Unable to fetch bills"
-            );
-
+            throw new Error("Unable to fetch bills");
           }
 
           return response.json();
-
         })
-
         .then((data) => {
+          console.log("Bills from Backend:", data);
 
+          setBills(data.bills || []);
+        })
+        .catch((error) => {
+          console.error("Bill Fetch Error:", error);
+
+          setBills([]);
+        })
+        .finally(() => {
+          setLoadingBills(false);
+        });
+
+      // ==========================================
+      // GET NOTIFICATIONS FROM BACKEND
+      // ==========================================
+
+      fetch(
+        `http://localhost:5000/api/notifications/${consumerNumber}`
+      )
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(
+              "Unable to fetch notifications"
+            );
+          }
+
+          return response.json();
+        })
+        .then((data) => {
           console.log(
-            "Bills from Backend:",
+            "Notifications from Backend:",
             data
           );
 
-
-          // Save bills
-          setBills(
-            data.bills || []
+          setNotifications(
+            data.notifications || []
           );
-
         })
-
         .catch((error) => {
-
           console.error(
-            "Bill Fetch Error:",
+            "Notification Fetch Error:",
             error
           );
 
-          setBills([]);
-
+          setNotifications([]);
         })
-
         .finally(() => {
-
-          setLoadingBills(false);
-
+          setLoadingNotifications(false);
         });
-
-
     } catch (error) {
+      console.error("User Data Error:", error);
 
-      console.error(
-        "User Data Error:",
-        error
-      );
-
-
-      // Remove wrong data
-      localStorage.removeItem(
-        "loggedInUser"
-      );
-
+      localStorage.removeItem("loggedInUser");
 
       navigate("/login");
-
     }
-
   }, [navigate]);
-
 
   // ==========================================
   // LOGOUT
   // ==========================================
 
   const handleLogout = () => {
+    localStorage.removeItem("loggedInUser");
+    localStorage.removeItem("demoOTP");
+    localStorage.removeItem("consumerNumber");
 
-    localStorage.removeItem(
-      "loggedInUser"
-    );
-
-    localStorage.removeItem(
-      "demoOTP"
-    );
-
-    localStorage.removeItem(
-      "consumerNumber"
-    );
-
-
-    navigate(
-      "/login",
-      {
-        replace: true
-      }
-    );
-
+    navigate("/login", {
+      replace: true,
+    });
   };
-
 
   // ==========================================
   // LOADING USER
   // ==========================================
 
   if (!consumer) {
-
     return (
-
       <div className="loading-screen">
+        <h2>Loading Dashboard...</h2>
 
-        <h2>
-          Loading Dashboard...
-        </h2>
-
-        <p>
-          Please wait...
-        </p>
-
+        <p>Please wait...</p>
       </div>
-
     );
-
   }
-
 
   // ==========================================
   // GET LATEST BILL
   // ==========================================
 
   const currentBill =
+    bills.length > 0 ? bills[0] : null;
 
-    bills.length > 0
+  // ==========================================
+  // FORMAT DATE
+  // ==========================================
 
-      ? bills[0]
+  const formatDate = (date) => {
+    if (!date) {
+      return "-- / -- / ----";
+    }
 
+    return new Date(date).toLocaleDateString(
+      "en-IN"
+    );
+  };
+
+  // ==========================================
+  // CREATE AUTOMATIC BILL NOTIFICATION
+  // ==========================================
+
+  const billNotification =
+    currentBill &&
+    currentBill.status &&
+    currentBill.status.toLowerCase() !== "paid"
+      ? {
+          _id: "bill-notification",
+          id: "bill-notification",
+
+          title: "Payment Pending",
+
+          message:
+            `Your electricity bill of ₹${currentBill.billAmount} ` +
+            `is pending. Please pay before ` +
+            `${formatDate(currentBill.dueDate)}.`,
+
+          type: "Bill Due",
+
+          priority: "high",
+
+          read: false,
+
+          createdAt: new Date(),
+        }
       : null;
 
+  // ==========================================
+  // COMBINE BACKEND + BILL NOTIFICATION
+  // ==========================================
+
+  const dashboardNotifications = [
+    ...(billNotification
+      ? [billNotification]
+      : []),
+
+    ...notifications,
+  ];
+
+  // ==========================================
+  // UNREAD NOTIFICATION COUNT
+  // ==========================================
+
+  const notificationCount =
+    dashboardNotifications.filter(
+      (notification) =>
+        notification.read !== true &&
+        notification.isRead !== true
+    ).length;
 
   // ==========================================
   // DASHBOARD
   // ==========================================
 
   return (
-
     <div className="dashboard">
-
 
       {/* ======================================
           SIDEBAR
@@ -250,32 +279,29 @@ function ConsumerDashboard() {
 
       <aside className="sidebar">
 
-
-        {/* LOGO */}
+        {/* ======================================
+            LOGO
+        ======================================= */}
 
         <div className="logo">
 
           <FaBolt className="logo-icon" />
 
           <div>
-
-            <h2>
-              DGVCL
-            </h2>
+            <h2>DGPS</h2>
 
             <span>
               Consumer Portal
             </span>
-
           </div>
 
         </div>
 
-
-        {/* MENU */}
+        {/* ======================================
+            MENU
+        ======================================= */}
 
         <ul className="menu">
-
 
           {/* DASHBOARD */}
 
@@ -293,12 +319,11 @@ function ConsumerDashboard() {
 
           </li>
 
-
           {/* PROFILE */}
 
           <li>
 
-            <Link to="/MyProfile">
+            <Link to="/myprofile">
 
               <FaUserCircle />
 
@@ -309,7 +334,6 @@ function ConsumerDashboard() {
             </Link>
 
           </li>
-
 
           {/* BILLS */}
 
@@ -327,12 +351,11 @@ function ConsumerDashboard() {
 
           </li>
 
-
           {/* PAYMENT HISTORY */}
 
           <li>
 
-            <Link to="/PaymentHistory">
+            <Link to="/paymenthistory">
 
               <FaHistory />
 
@@ -343,7 +366,6 @@ function ConsumerDashboard() {
             </Link>
 
           </li>
-
 
           {/* COMPLAINT */}
 
@@ -361,12 +383,11 @@ function ConsumerDashboard() {
 
           </li>
 
-
           {/* NOTIFICATIONS */}
 
           <li>
 
-            <Link to="/notifications">
+            <Link to="/notification">
 
               <FaBell />
 
@@ -374,22 +395,25 @@ function ConsumerDashboard() {
                 Notifications
               </span>
 
+              {notificationCount > 0 && (
+                <span className="notification-count">
+                  {notificationCount}
+                </span>
+              )}
+
             </Link>
 
           </li>
 
-
         </ul>
 
       </aside>
-
 
       {/* ======================================
           MAIN CONTENT
       ======================================= */}
 
       <main className="main-content">
-
 
         {/* ==================================
             TOPBAR
@@ -400,28 +424,21 @@ function ConsumerDashboard() {
           <div>
 
             <h1>
-
               Welcome, {consumer.name} 👋
-
             </h1>
 
             <p>
-
-              Manage your electricity services efficiently.
-
+              Manage your electricity services
+              efficiently.
             </p>
 
           </div>
 
-
           {/* LOGOUT */}
 
           <button
-
             className="logout"
-
             onClick={handleLogout}
-
           >
 
             <FaSignOutAlt />
@@ -430,9 +447,7 @@ function ConsumerDashboard() {
 
           </button>
 
-
         </div>
-
 
         {/* ==================================
             PROFILE CARD
@@ -440,106 +455,58 @@ function ConsumerDashboard() {
 
         <div className="profile-card">
 
-
           <div className="profile-left">
 
-
-            {/* USER ICON */}
-
             <div className="avatar">
-
               <FaUserCircle />
-
             </div>
-
-
-            {/* USER DETAILS */}
 
             <div>
 
               <h2>
-
                 {consumer.name}
-
               </h2>
 
-
               <p>
-
                 <strong>
                   Consumer No :
-                </strong>
-
-                {" "}
-
+                </strong>{" "}
                 {consumer.consumerNumber}
-
               </p>
 
-
               <p>
-
                 <strong>
                   Meter No :
-                </strong>
-
-                {" "}
-
+                </strong>{" "}
                 {consumer.meterNumber}
-
               </p>
 
-
               <p>
-
                 <strong>
                   Mobile :
-                </strong>
-
-                {" "}
-
+                </strong>{" "}
                 {consumer.mobile}
-
               </p>
-
 
               <p>
-
                 <strong>
                   Address :
-                </strong>
-
-                {" "}
-
+                </strong>{" "}
                 {consumer.address}
-
               </p>
 
-
-              {/* EMAIL */}
-
               {consumer.email && (
-
                 <p>
-
                   <strong>
                     Email :
-                  </strong>
-
-                  {" "}
-
+                  </strong>{" "}
                   {consumer.email}
-
                 </p>
-
               )}
-
 
             </div>
 
-
           </div>
-
 
           {/* CONNECTION STATUS */}
 
@@ -547,20 +514,18 @@ function ConsumerDashboard() {
 
             <FaCheckCircle />
 
-            {consumer.connectionStatus || "Active"}
+            {consumer.connectionStatus ||
+              "Active"}
 
           </div>
 
-
         </div>
-
 
         {/* ==================================
             DASHBOARD CARDS
         =================================== */}
 
         <div className="cards">
-
 
           {/* CURRENT BILL */}
 
@@ -573,29 +538,20 @@ function ConsumerDashboard() {
             <h2>
 
               {currentBill
-
-                ? `₹${currentBill.amount}`
-
-                : "₹ ----"
-
-              }
+                ? `₹${currentBill.billAmount}`
+                : "₹ ----"}
 
             </h2>
 
             <span>
 
               {currentBill
-
                 ? currentBill.status
-
-                : "No Bill"
-
-              }
+                : "No Bill"}
 
             </span>
 
           </div>
-
 
           {/* UNITS */}
 
@@ -608,12 +564,8 @@ function ConsumerDashboard() {
             <h2>
 
               {currentBill
-
                 ? `${currentBill.units} kWh`
-
-                : "--- kWh"
-
-              }
+                : "--- kWh"}
 
             </h2>
 
@@ -622,7 +574,6 @@ function ConsumerDashboard() {
             </span>
 
           </div>
-
 
           {/* DUE DATE */}
 
@@ -635,12 +586,8 @@ function ConsumerDashboard() {
             <h2>
 
               {currentBill
-
-                ? currentBill.dueDate
-
-                : "-- / -- / ----"
-
-              }
+                ? formatDate(currentBill.dueDate)
+                : "-- / -- / ----"}
 
             </h2>
 
@@ -649,7 +596,6 @@ function ConsumerDashboard() {
             </span>
 
           </div>
-
 
           {/* LAST PAYMENT */}
 
@@ -669,9 +615,157 @@ function ConsumerDashboard() {
 
           </div>
 
-
         </div>
 
+        {/* ==================================
+            NOTIFICATIONS
+        =================================== */}
+
+        <div className="dashboard-notifications">
+
+          <div className="notification-header">
+
+            <div>
+
+              <h2>
+
+                <FaBell />
+
+                Notifications
+
+                {notificationCount > 0 && (
+                  <span className="notification-header-count">
+                    {notificationCount}
+                  </span>
+                )}
+
+              </h2>
+
+              <p>
+                Important updates about
+                your electricity account
+              </p>
+
+            </div>
+
+            <Link
+              to="/notification"
+              className="view-all-notifications"
+            >
+              View All
+            </Link>
+
+          </div>
+
+          {/* LOADING */}
+
+          {loadingNotifications ? (
+
+            <div className="notification-loading">
+
+              <p>
+                Loading notifications...
+              </p>
+
+            </div>
+
+          )
+
+          /* NO NOTIFICATIONS */
+
+          : dashboardNotifications.length === 0 ? (
+
+            <div className="no-notifications">
+
+              <FaCheckCircle />
+
+              <div>
+
+                <h3>
+                  No New Notifications
+                </h3>
+
+                <p>
+                  Your electricity account
+                  is up to date.
+                </p>
+
+              </div>
+
+            </div>
+
+          )
+
+          /* NOTIFICATION LIST */
+
+          : (
+
+            <div className="notification-list">
+
+              {dashboardNotifications
+                .slice(0, 3)
+                .map((notification, index) => {
+
+                  const notificationKey =
+                    notification._id ||
+                    notification.id ||
+                    `notification-${index}`;
+
+                  const notificationType =
+                    notification.priority ||
+                    notification.type ||
+                    "info";
+
+                  return (
+
+                    <div
+                      className={
+                        `dashboard-notification ${notificationType
+                          .toLowerCase()
+                          .replace(/\s+/g, "-")}`
+                      }
+
+                      key={notificationKey}
+                    >
+
+                      <div className="notification-icon">
+                        <FaBell />
+                      </div>
+
+                      <div className="notification-content">
+
+                        <h3>
+                          {notification.title}
+                        </h3>
+
+                        <p>
+                          {notification.message}
+                        </p>
+
+                        {notification.createdAt && (
+                          <small>
+
+                            {new Date(
+                              notification.createdAt
+                            ).toLocaleDateString(
+                              "en-IN"
+                            )}
+
+                          </small>
+                        )}
+
+                      </div>
+
+                    </div>
+
+                  );
+                })}
+
+            </div>
+
+          )}
+
+        </div>
 
         {/* ==================================
             QUICK ACTIONS
@@ -679,23 +773,15 @@ function ConsumerDashboard() {
 
         <div className="quick">
 
-
           <h2>
             Quick Actions
           </h2>
 
-
           <div className="quick-grid">
 
-
-            {/* PAY BILL */}
-
             <Link
-
               to="/paybill"
-
               className="quick-box"
-
             >
 
               <FaCreditCard />
@@ -706,15 +792,9 @@ function ConsumerDashboard() {
 
             </Link>
 
-
-            {/* DOWNLOAD BILL */}
-
             <Link
-
               to="/downloadbill"
-
               className="quick-box"
-
             >
 
               <FaDownload />
@@ -725,15 +805,9 @@ function ConsumerDashboard() {
 
             </Link>
 
-
-            {/* COMPLAINT */}
-
             <Link
-
               to="/complaint"
-
               className="quick-box"
-
             >
 
               <FaExclamationCircle />
@@ -744,15 +818,9 @@ function ConsumerDashboard() {
 
             </Link>
 
-
-            {/* USAGE */}
-
             <Link
-
               to="/usage"
-
               className="quick-box"
-
             >
 
               <FaChartLine />
@@ -763,12 +831,9 @@ function ConsumerDashboard() {
 
             </Link>
 
-
           </div>
 
-
         </div>
-
 
         {/* ==================================
             RECENT BILLS
@@ -776,11 +841,9 @@ function ConsumerDashboard() {
 
         <div className="bill-table">
 
-
           <h2>
             Recent Bills
           </h2>
-
 
           {loadingBills ? (
 
@@ -788,16 +851,19 @@ function ConsumerDashboard() {
               Loading bills...
             </p>
 
-          ) : bills.length === 0 ? (
+          )
+
+          : bills.length === 0 ? (
 
             <p>
               No bills available.
             </p>
 
-          ) : (
+          )
+
+          : (
 
             <table>
-
 
               <thead>
 
@@ -827,77 +893,54 @@ function ConsumerDashboard() {
 
               </thead>
 
-
               <tbody>
-
 
                 {bills.map((bill) => (
 
-                  <tr key={bill._id}>
-
+                  <tr
+                    key={
+                      bill._id ||
+                      bill.id
+                    }
+                  >
 
                     <td>
-
-                      {bill.month}
-
+                      {bill.billingMonth}
                     </td>
 
-
                     <td>
-
                       {bill.units} kWh
-
                     </td>
-
 
                     <td>
-
-                      ₹{bill.amount}
-
+                      ₹{bill.billAmount}
                     </td>
-
 
                     <td>
-
-                      {bill.dueDate}
-
+                      {formatDate(bill.dueDate)}
                     </td>
-
 
                     <td
-
                       className={
-
                         bill.status === "Paid"
-
                           ? "paid"
-
                           : "pending"
-
                       }
-
                     >
-
                       {bill.status}
-
                     </td>
-
 
                   </tr>
 
                 ))}
 
-
               </tbody>
-
 
             </table>
 
           )}
 
-
         </div>
-
 
         {/* ==================================
             AI ENERGY SAVING CARD
@@ -905,78 +948,58 @@ function ConsumerDashboard() {
 
         <div className="ai-card">
 
-
           <div>
 
-            <FaLightbulb className="ai-icon" />
+            <FaLightbulb
+              className="ai-icon"
+            />
 
           </div>
 
-
           <div>
-
 
             <h2>
               AI Energy Saving Tips
             </h2>
 
-
             <p>
-
-              Your electricity usage can be reduced
-              by following these smart recommendations.
-
+              Your electricity usage can be
+              reduced by following these
+              smart recommendations.
             </p>
-
 
             <ul>
 
-
               <li>
-
-                💡 Turn OFF unused electrical appliances.
-
+                💡 Turn OFF unused electrical
+                appliances.
               </li>
 
-
               <li>
-
-                💡 Use LED bulbs for better efficiency.
-
+                💡 Use LED bulbs for better
+                efficiency.
               </li>
 
-
               <li>
-
-                💡 Set AC temperature between 24°C - 26°C.
-
+                💡 Set AC temperature between
+                24°C - 26°C.
               </li>
 
-
               <li>
-
-                💡 Monitor your monthly electricity usage.
-
+                💡 Monitor your monthly
+                electricity usage.
               </li>
-
 
             </ul>
 
-
           </div>
-
 
         </div>
 
-
       </main>
 
-
     </div>
-
   );
-
 }
-
 
 export default ConsumerDashboard;

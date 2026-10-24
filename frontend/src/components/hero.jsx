@@ -1,21 +1,61 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 
 import "../styles/hero.css";
 
 function Hero() {
-
   const navigate = useNavigate();
 
-  // Register Button
+  // ================= STATES =================
+
+  const [consumerNumber, setConsumerNumber] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [service, setService] = useState("");
+
+  // ================= REGISTER =================
+
   const handleRegister = () => {
     navigate("/register");
   };
 
-  // Login Button
-  const handleLogin = () => {
-    navigate("/login");
+  // ================= ADMIN LOGIN =================
+
+  const handleAdminLogin = () => {
+    navigate("/admin-login");
+  };
+
+  // ================= QUICK SERVICE =================
+
+  const handleSearch = () => {
+    if (!consumerNumber || !mobileNumber || !service) {
+      alert(
+        "Please enter Consumer Number, Mobile Number and select a Service."
+      );
+      return;
+    }
+
+    if (service === "Pay Bill") {
+      navigate("/paybill");
+      return;
+    }
+
+    if (service === "View Bill") {
+      navigate("/bills");
+      return;
+    }
+
+    if (service === "Register Complaint") {
+      navigate("/complaint");
+      return;
+    }
+
+    if (service === "New Connection") {
+      navigate("/new-connection");
+      return;
+    }
+
+    alert("Please select a valid service.");
   };
 
   return (
@@ -25,19 +65,17 @@ function Hero() {
 
       <Navbar />
 
-
       {/* ================= HERO CONTENT ================= */}
 
       <div className="hero-content">
 
-        {/* Hero Tag */}
+        {/* HERO TAG */}
 
         <div className="hero-tag">
           ⚡ SMART • DIGITAL • RELIABLE
         </div>
 
-
-        {/* Main Heading */}
+        {/* MAIN HEADING */}
 
         <h1>
           Powering Gujarat
@@ -47,13 +85,11 @@ function Hero() {
           Services
         </h1>
 
-
-        {/* Blue Line */}
+        {/* BLUE LINE */}
 
         <div className="line"></div>
 
-
-        {/* Description */}
+        {/* DESCRIPTION */}
 
         <p>
           DGPS (Digital Gujarat Power System) is your one-stop solution
@@ -61,12 +97,11 @@ function Hero() {
           <strong> Safe. Simple. Smart.</strong>
         </p>
 
-
         {/* ================= BUTTONS ================= */}
 
         <div className="hero-buttons">
 
-          {/* Register Button */}
+          {/* REGISTER BUTTON */}
 
           <button
             className="primary-btn"
@@ -75,26 +110,24 @@ function Hero() {
             ⚡ Get Started
           </button>
 
-
-          {/* Login Button */}
+          {/* ADMIN LOGIN BUTTON */}
 
           <button
             className="secondary-btn"
-            onClick={handleLogin}
+            onClick={handleAdminLogin}
           >
-            Existing Consumer Login →
+            🔐 Admin Login →
           </button>
 
         </div>
 
       </div>
 
-
       {/* ================= QUICK SERVICE CARD ================= */}
 
       <div className="quick-card">
 
-        {/* Card Header */}
+        {/* CARD HEADER */}
 
         <div className="card-header">
 
@@ -103,7 +136,6 @@ function Hero() {
           </div>
 
           <div>
-
             <h2>
               Quick Service
             </h2>
@@ -111,17 +143,15 @@ function Hero() {
             <p>
               Find and access our services quickly
             </p>
-
           </div>
 
         </div>
-
 
         {/* ================= FORM ================= */}
 
         <div className="card-form">
 
-          {/* Consumer Number */}
+          {/* CONSUMER NUMBER */}
 
           <div className="input-group">
 
@@ -132,12 +162,15 @@ function Hero() {
             <input
               type="text"
               placeholder="Enter Consumer Number"
+              value={consumerNumber}
+              onChange={(e) =>
+                setConsumerNumber(e.target.value)
+              }
             />
 
           </div>
 
-
-          {/* Select Service */}
+          {/* SELECT SERVICE */}
 
           <div className="input-group">
 
@@ -145,25 +178,30 @@ function Hero() {
               Select Service
             </label>
 
-            <select>
+            <select
+              value={service}
+              onChange={(e) =>
+                setService(e.target.value)
+              }
+            >
 
-              <option>
+              <option value="">
                 Select Service
               </option>
 
-              <option>
+              <option value="Pay Bill">
                 Pay Bill
               </option>
 
-              <option>
+              <option value="View Bill">
                 View Bill
               </option>
 
-              <option>
+              <option value="Register Complaint">
                 Register Complaint
               </option>
 
-              <option>
+              <option value="New Connection">
                 New Connection
               </option>
 
@@ -171,8 +209,7 @@ function Hero() {
 
           </div>
 
-
-          {/* Mobile Number */}
+          {/* MOBILE NUMBER */}
 
           <div className="input-group">
 
@@ -183,15 +220,19 @@ function Hero() {
             <input
               type="text"
               placeholder="Enter Mobile Number"
+              value={mobileNumber}
+              onChange={(e) =>
+                setMobileNumber(e.target.value)
+              }
             />
 
           </div>
 
-
-          {/* Search Button */}
+          {/* SEARCH BUTTON */}
 
           <button
             className="search-btn"
+            onClick={handleSearch}
           >
             🔍 Search
           </button>

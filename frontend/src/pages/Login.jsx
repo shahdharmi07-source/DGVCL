@@ -1,18 +1,22 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaBolt, FaArrowLeft } from "react-icons/fa";
+
+import {
+  FaBolt,
+  FaArrowLeft
+} from "react-icons/fa";
 
 import "../styles/login.css";
 import loginImage from "../styles/img2.png";
+import "../styles/img3.jpg";
+
 
 function Login() {
 
   const navigate = useNavigate();
 
   const [consumerNumber, setConsumerNumber] = useState("");
-
   const [message, setMessage] = useState("");
-
   const [loading, setLoading] = useState(false);
 
 
@@ -24,26 +28,18 @@ function Login() {
 
     setMessage("");
 
-
-    // ==========================================
-    // CHECK CONSUMER NUMBER
-    // ==========================================
-
+    // Check Consumer Number
     if (consumerNumber.trim() === "") {
 
-      setMessage(
-        "Please enter Consumer Number."
-      );
+      setMessage("Please enter Consumer Number.");
 
       return;
-
     }
 
 
     try {
 
       setLoading(true);
-
 
       console.log(
         "Checking Consumer Number:",
@@ -56,28 +52,18 @@ function Login() {
       // ==========================================
 
       const response = await fetch(
-
         "http://localhost:5000/api/users/login",
-
         {
-
           method: "POST",
 
           headers: {
-
             "Content-Type": "application/json"
-
           },
 
           body: JSON.stringify({
-
-            consumerNumber:
-              consumerNumber.trim()
-
+            consumerNumber: consumerNumber.trim()
           })
-
         }
-
       );
 
 
@@ -96,30 +82,17 @@ function Login() {
 
       if (response.ok) {
 
-
-        // ==========================================
-        // SAVE USER DATA
-        // ==========================================
-
+        // Save User Data
         localStorage.setItem(
-
           "loggedInUser",
-
           JSON.stringify(data.user)
-
         );
 
 
-        // ==========================================
-        // SAVE CONSUMER NUMBER
-        // ==========================================
-
+        // Save Consumer Number
         localStorage.setItem(
-
           "consumerNumber",
-
           consumerNumber.trim()
-
         );
 
 
@@ -128,81 +101,46 @@ function Login() {
         // ==========================================
 
         const randomOTP = Math.floor(
-
-          100000 +
-
-          Math.random() * 900000
-
+          100000 + Math.random() * 900000
         ).toString();
 
 
-        // ==========================================
-        // SAVE OTP
-        // ==========================================
-
+        // Save OTP
         localStorage.setItem(
-
           "demoOTP",
-
           randomOTP
-
         );
 
 
-        // ==========================================
-        // SHOW DEMO OTP
-        // ==========================================
-
+        // Show Demo OTP
         alert(
-
-          "Your Demo OTP is: " +
-
-          randomOTP
-
+          "Your Demo OTP is: " + randomOTP
         );
 
 
-        // ==========================================
-        // GO TO OTP PAGE
-        // ==========================================
-
+        // Go To OTP Page
         navigate("/otp");
 
 
       } else {
 
-
-        // ==========================================
-        // LOGIN FAILED
-        // ==========================================
-
+        // Login Failed
         setMessage(
-
           data.message ||
-
           "Consumer not registered."
-
         );
-
       }
 
 
     } catch (error) {
 
-
       console.error(
-
         "LOGIN ERROR:",
-
         error
-
       );
 
-
       setMessage(
-
         "Backend server is not connected."
-
       );
 
 
@@ -215,39 +153,46 @@ function Login() {
   };
 
 
+  // ==========================================
+  // UI
+  // ==========================================
+
   return (
 
     <div className="login-page">
 
 
+      {/* =====================================
+          LOGIN CONTAINER
+      ===================================== */}
+
       <div className="login-container">
 
 
-        {/* ==========================================
+        {/* =====================================
             LEFT SIDE
-        ========================================== */}
+        ===================================== */}
 
         <div className="login-left">
 
           <img
-
             src={loginImage}
-
             alt="Electricity Illustration"
-
           />
 
         </div>
 
 
-        {/* ==========================================
+        {/* =====================================
             RIGHT SIDE
-        ========================================== */}
+        ===================================== */}
 
         <div className="login-right">
 
 
-          {/* LOGO */}
+          {/* =====================================
+              LOGO
+          ===================================== */}
 
           <div className="login-logo">
 
@@ -260,27 +205,26 @@ function Login() {
           </div>
 
 
-          {/* TITLE */}
+          {/* =====================================
+              TITLE
+          ===================================== */}
 
           <h1>
-
             Consumer Login
-
           </h1>
 
 
           <p className="login-subtitle">
 
             Welcome Back! Login to access
-
             your electricity services securely.
 
           </p>
 
 
-          {/* ==========================================
+          {/* =====================================
               MESSAGE
-          ========================================== */}
+          ===================================== */}
 
           {message && (
 
@@ -293,59 +237,42 @@ function Login() {
           )}
 
 
-          {/* ==========================================
+          {/* =====================================
               LOGIN FORM
-          ========================================== */}
+          ===================================== */}
 
           <div className="login-form">
 
 
             <label>
-
               Consumer Number
-
             </label>
 
 
             <input
-
               type="text"
-
               placeholder="Enter Consumer Number"
-
               value={consumerNumber}
-
               onChange={(e) =>
-
-                setConsumerNumber(
-
-                  e.target.value
-
-                )
-
+                setConsumerNumber(e.target.value)
               }
-
             />
 
 
-            {/* OTP BUTTON */}
+            {/* =================================
+                OTP BUTTON
+            ================================= */}
 
             <button
-
+              type="button"
               className="otp-btn"
-
               onClick={handleGenerateOTP}
-
               disabled={loading}
-
             >
 
               {loading
-
                 ? "Checking..."
-
                 : "Generate OTP"
-
               }
 
             </button>
@@ -354,7 +281,6 @@ function Login() {
             <p className="otp-info">
 
               OTP will be sent to your
-
               registered mobile number.
 
             </p>
@@ -363,52 +289,42 @@ function Login() {
           </div>
 
 
-          {/* ==========================================
-              REGISTER LINK
-          ========================================== */}
+          {/* =====================================
+              REGISTER
+          ===================================== */}
 
           <div className="register-link">
 
-            New Consumer?
+            <span>
+              New Consumer?
+            </span>
 
 
             <button
-
               type="button"
-
               onClick={() =>
-
                 navigate("/register")
-
               }
-
             >
-
               Register Here
-
             </button>
 
           </div>
 
 
-          {/* ==========================================
+          {/* =====================================
               BACK TO HOME
-          ========================================== */}
+          ===================================== */}
 
           <Link
-
             to="/"
-
             className="back-home"
-
           >
 
             <FaArrowLeft />
 
             <span>
-
               Back to Home
-
             </span>
 
           </Link>
@@ -423,5 +339,6 @@ function Login() {
   );
 
 }
+
 
 export default Login;

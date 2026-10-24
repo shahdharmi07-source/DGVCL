@@ -3,9 +3,9 @@
 );
 
 
-/* ==============================
+/* =====================================================
    GLOBAL
-============================== */
+===================================================== */
 
 * {
   margin: 0;
@@ -15,13 +15,15 @@
 }
 
 
-/* ==============================
+/* =====================================================
    MAIN PAGE
-============================== */
+===================================================== */
 
 .complaint-page {
 
   min-height: 100vh;
+
+  width: 100%;
 
   padding: 50px 20px;
 
@@ -53,9 +55,9 @@
 }
 
 
-/* ==============================
+/* =====================================================
    MAIN CONTAINER
-============================== */
+===================================================== */
 
 .complaint-container {
 
@@ -80,9 +82,9 @@
 }
 
 
-/* ==============================
+/* =====================================================
    HEADER
-============================== */
+===================================================== */
 
 .complaint-header {
 
@@ -102,6 +104,8 @@
   width: 65px;
 
   height: 65px;
+
+  flex-shrink: 0;
 
   display: flex;
 
@@ -151,9 +155,9 @@
 }
 
 
-/* ==============================
+/* =====================================================
    AI BANNER
-============================== */
+===================================================== */
 
 .ai-banner {
 
@@ -185,7 +189,7 @@
 }
 
 
-.ai-banner svg {
+.ai-banner > svg {
 
   min-width: 42px;
 
@@ -200,6 +204,8 @@
 
   font-size: 18px;
 
+  font-weight: 600;
+
   margin-bottom: 5px;
 
 }
@@ -211,18 +217,22 @@
 
   color: #dcecff;
 
+  line-height: 1.5;
+
 }
 
 
-/* ==============================
+/* =====================================================
    CHAT BOX
-============================== */
+===================================================== */
 
 .chat-box {
 
   height: 350px;
 
   overflow-y: auto;
+
+  overflow-x: hidden;
 
   padding: 22px;
 
@@ -239,12 +249,14 @@
 
   margin-bottom: 18px;
 
+  scroll-behavior: smooth;
+
 }
 
 
-/* ==============================
-   SCROLLBAR
-============================== */
+/* =====================================================
+   CHAT SCROLLBAR
+===================================================== */
 
 .chat-box::-webkit-scrollbar {
 
@@ -269,9 +281,9 @@
 }
 
 
-/* ==============================
-   CHAT MESSAGE
-============================== */
+/* =====================================================
+   CHAT MESSAGE COMMON
+===================================================== */
 
 .chat-message {
 
@@ -293,7 +305,14 @@
 
   line-height: 1.6;
 
-  animation: messageAnimation 0.3s ease;
+  word-break: break-word;
+
+  overflow-wrap: anywhere;
+
+  animation:
+    messageAnimation
+    0.3s
+    ease;
 
 }
 
@@ -319,11 +338,13 @@
 }
 
 
-/* ==============================
+/* =====================================================
    AI MESSAGE
-============================== */
+===================================================== */
 
 .ai-message {
+
+  margin-right: auto;
 
   color: #344054;
 
@@ -344,20 +365,26 @@
 
   min-width: 18px;
 
+  width: 18px;
+
   margin-top: 3px;
 
   color: #0066ff;
 
+  flex-shrink: 0;
+
 }
 
 
-/* ==============================
+/* =====================================================
    USER MESSAGE
-============================== */
+===================================================== */
 
 .user-message {
 
   margin-left: auto;
+
+  margin-right: 0;
 
   color: white;
 
@@ -377,22 +404,34 @@
 }
 
 
-/* ==============================
-   CHAT INPUT
-============================== */
+/* =====================================================
+   CHAT INPUT AREA
+===================================================== */
 
 .chat-input {
 
+  width: 100%;
+
   display: flex;
 
+  align-items: center;
+
   gap: 10px;
+
+  margin-bottom: 0;
 
 }
 
 
+/* =====================================================
+   CHAT INPUT
+===================================================== */
+
 .chat-input input {
 
   flex: 1;
+
+  min-width: 0;
 
   height: 55px;
 
@@ -433,11 +472,17 @@
 }
 
 
+/* =====================================================
+   SEND BUTTON
+===================================================== */
+
 .chat-input button {
 
   width: 55px;
 
   height: 55px;
+
+  flex-shrink: 0;
 
   display: flex;
 
@@ -478,10 +523,16 @@
 }
 
 
-/* ==============================
+.chat-input button:active {
+
+  transform: translateY(0);
+
+}
+
+
+/* =====================================================
    REGISTER COMPLAINT BUTTON
-   BLUE THEME
-============================== */
+===================================================== */
 
 .register-btn {
 
@@ -527,9 +578,11 @@
 }
 
 
-/* REGISTER BUTTON HOVER */
+/* =====================================================
+   REGISTER BUTTON HOVER
+===================================================== */
 
-.register-btn:hover {
+.register-btn:hover:not(:disabled) {
 
   transform: translateY(-3px);
 
@@ -547,9 +600,11 @@
 }
 
 
-/* REGISTER BUTTON ACTIVE */
+/* =====================================================
+   REGISTER BUTTON ACTIVE
+===================================================== */
 
-.register-btn:active {
+.register-btn:active:not(:disabled) {
 
   transform: translateY(0);
 
@@ -560,9 +615,130 @@
 }
 
 
-/* ==============================
+/* =====================================================
+   REGISTER BUTTON DISABLED
+===================================================== */
+
+.register-btn:disabled {
+
+  cursor: not-allowed;
+
+  opacity: 0.55;
+
+  transform: none;
+
+  box-shadow:
+    none;
+
+}
+
+
+/* =====================================================
+   COMPLAINT READY BOX
+===================================================== */
+
+.complaint-ready {
+
+  width: 100%;
+
+  margin-top: 15px;
+
+  padding: 16px 18px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 5px;
+
+  border-radius: 15px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f0f8ff,
+      #e8f4ff
+    );
+
+  border: 1px solid #cfe5fa;
+
+  box-shadow:
+    0 5px 15px
+    rgba(0, 102, 255, 0.06);
+
+  animation:
+    readyAnimation
+    0.3s
+    ease;
+
+}
+
+
+@keyframes readyAnimation {
+
+  from {
+
+    opacity: 0;
+
+    transform: translateY(8px);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform: translateY(0);
+
+  }
+
+}
+
+
+/* Complaint Ready heading */
+
+.complaint-ready strong {
+
+  color: #0066ff;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+}
+
+
+/* Complaint category */
+
+.complaint-ready span {
+
+  color: #071426;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+}
+
+
+/* Complaint info text */
+
+.complaint-ready p {
+
+  margin-top: 2px;
+
+  color: #667085;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+
+}
+
+
+/* =====================================================
    BACK BUTTON
-============================== */
+===================================================== */
 
 .back-btn {
 
@@ -610,9 +786,16 @@
 }
 
 
-/* ==============================
+.back-btn:active {
+
+  transform: translateY(0);
+
+}
+
+
+/* =====================================================
    MOBILE RESPONSIVE
-============================== */
+===================================================== */
 
 @media (max-width: 600px) {
 
@@ -640,6 +823,8 @@
 
     gap: 12px;
 
+    margin-bottom: 22px;
+
   }
 
 
@@ -650,6 +835,8 @@
     height: 55px;
 
     font-size: 25px;
+
+    border-radius: 17px;
 
   }
 
@@ -672,12 +859,30 @@
 
     padding: 16px;
 
+    gap: 13px;
+
   }
 
 
-  .ai-banner svg {
+  .ai-banner > svg {
+
+    min-width: 35px;
 
     font-size: 30px;
+
+  }
+
+
+  .ai-banner h3 {
+
+    font-size: 15px;
+
+  }
+
+
+  .ai-banner p {
+
+    font-size: 11px;
 
   }
 
@@ -695,7 +900,18 @@
 
     max-width: 92%;
 
+    padding: 12px 14px;
+
     font-size: 12px;
+
+    line-height: 1.55;
+
+  }
+
+
+  .chat-input {
+
+    gap: 7px;
 
   }
 
@@ -703,6 +919,10 @@
   .chat-input input {
 
     height: 50px;
+
+    padding: 0 13px;
+
+    font-size: 12px;
 
   }
 
@@ -713,6 +933,8 @@
 
     height: 50px;
 
+    font-size: 16px;
+
   }
 
 
@@ -722,6 +944,36 @@
 
     font-size: 13px;
 
+    margin-top: 17px;
+
+  }
+
+
+  .complaint-ready {
+
+    padding: 14px;
+
+  }
+
+
+  .complaint-ready strong {
+
+    font-size: 13px;
+
+  }
+
+
+  .complaint-ready span {
+
+    font-size: 12px;
+
+  }
+
+
+  .complaint-ready p {
+
+    font-size: 11px;
+
   }
 
 
@@ -730,6 +982,67 @@
     height: 48px;
 
     font-size: 13px;
+
+  }
+
+}
+
+
+/* =====================================================
+   VERY SMALL MOBILE
+===================================================== */
+
+@media (max-width: 380px) {
+
+  .complaint-container {
+
+    padding: 18px 12px;
+
+  }
+
+
+  .complaint-header h1 {
+
+    font-size: 18px;
+
+  }
+
+
+  .complaint-header p {
+
+    font-size: 10px;
+
+  }
+
+
+  .ai-banner {
+
+    padding: 13px;
+
+  }
+
+
+  .chat-box {
+
+    height: 390px;
+
+    padding: 11px;
+
+  }
+
+
+  .chat-message {
+
+    max-width: 94%;
+
+    font-size: 11px;
+
+  }
+
+
+  .chat-input input {
+
+    font-size: 11px;
 
   }
 

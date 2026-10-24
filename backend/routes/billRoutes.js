@@ -1,152 +1,228 @@
 const express = require("express");
 const Bill = require("../models/Bill");
+const Notification = require("../models/Notification");
 
 const router = express.Router();
 
 
-// ==========================================
+// ==================================================
 // CREATE NEW BILL
-// ==========================================
+// ==================================================
 
 router.post("/create", async (req, res) => {
-
   try {
-
     const {
+      consumerId,
       consumerNumber,
       billNumber,
-      month,
+      billingMonth,
       units,
       dueDate
     } = req.body;
 
 
-    // Check required fields
+    // ==================================================
+    // CHECK REQUIRED FIELDS
+    // ==================================================
 
     if (
+      !consumerId ||
       !consumerNumber ||
       !billNumber ||
-      !month ||
+      !billingMonth ||
       units === undefined ||
       !dueDate
     ) {
-
       return res.status(400).json({
         message: "Please fill all required bill details"
       });
-
     }
 
 
-    // ==========================================
-    // AUTOMATIC BILL CALCULATION
-    // ==========================================
+    // ==================================================
+    // CHECK DUPLICATE BILL
+    // ==================================================
 
-    let energyCharge = 0;
+    const existingBill = await Bill.findOne({
+      billNumber: billNumber
+    });
 
-
-    // Simple tariff calculation
-    // For academic project
-
-    if (units <= 50) {
-
-      energyCharge = units * 2;
-
-    }
-
-    else if (units <= 150) {
-
-      energyCharge =
-        (50 * 2) +
-        ((units - 50) * 3);
-
-    }
-
-    else if (units <= 250) {
-
-      energyCharge =
-        (50 * 2) +
-        (100 * 3) +
-        ((units - 150) * 5);
-
-    }
-
-    else {
-
-      energyCharge =
-        (50 * 2) +
-        (100 * 3) +
-        (100 * 5) +
-        ((units - 250) * 7);
-
+    if (existingBill) {
+      return res.status(400).json({
+        message: "Bill with this bill number already exists"
+      });
     }
 
 
-    // Fixed Charge
+    // ==================================================
+    // BILL CALCULATION
+    // ==================================================
+
+    const ratePerUnit = 6.50;
+
+    const usageCharge =
+      units * ratePerUnit;
 
     const fixedCharge = 50;
 
+    const additionalCharge = 20;
 
-    // Final Bill Amount
+    const subtotal =
+      usageCharge +
+      fixedCharge +
+      additionalCharge;
 
-    const totalAmount =
-      energyCharge + fixedCharge;
+    const taxRate = 5;
+
+    const tax =
+      subtotal * (taxRate / 100);
+
+    const previousDue = 0;
+
+    const lateFee = 0;
+
+    const credit = 0;
+
+    const finalAmount =
+      subtotal +
+      tax +
+      previousDue +
+      lateFee -
+      credit;
+
+    const billAmount =
+      Math.round(finalAmount);
 
 
-    // ==========================================
-    // CREATE NEW BILL
-    // ==========================================
+    // ==================================================
+    // CREATE BILL
+    // ==================================================
 
     const newBill = new Bill({
-
-      consumerNumber,
-
-      billNumber,
-
-      month,
-
-      units,
-
-      amount: totalAmount,
-
-      dueDate,
-
+      consumerId: consumerId,
+      consumerNumber: consumerNumber,
+      billNumber: billNumber,
+      billingMonth: billingMonth,
+      units: units,
+      ratePerUnit: ratePerUnit,
+      usageCharge: usageCharge,
+      fixedCharge: fixedCharge,
+      additionalCharge: additionalCharge,
+      subtotal: subtotal,
+      taxRate: taxRate,
+      tax: tax,
+      previousDue: previousDue,
+      lateFee: lateFee,
+      credit: credit,
+      billAmount: billAmount,
+      dueDate: dueDate,
       status: "Pending"
-
     });
 
 
-    // ==========================================
+    // ==================================================
     // SAVE BILL IN MONGODB
-    // ==========================================
+    // ==================================================
 
     await newBill.save();
 
 
-    // ==========================================
+    // ==================================================
+    // CREATE NOTIFICATION
+    // ==================================================
+
+    const newNotification =
+      new Notification({
+
+        consumerNumber:
+          consumerNumber,
+
+        title:
+          "Electricity Bill Generated",
+
+        message:
+          `Your electricity bill of ₹${billAmount} for ${billingMonth} has been generated successfully. Due date is ${new Date(dueDate).toLocaleDateString("en-IN")}.`,
+
+        type:
+          "Bill Due",
+
+        priority:
+          "high",
+
+        read:
+          false,
+
+        actionText:
+          "View Bill",
+
+        actionLink:
+          "/bills"
+      });
+
+
+    // ==================================================
+    // SAVE NOTIFICATION IN MONGODB
+    // ==================================================
+
+    await newNotification.save();
+
+
+    // ==================================================
     // SEND RESPONSE
-    // ==========================================
+    // ==================================================
 
     res.status(201).json({
 
-      message: "Bill generated successfully",
+      message:
+        "Bill and notification generated successfully",
 
-      bill: newBill,
+      bill:
+        newBill,
+
+      notification:
+        newNotification,
 
       calculation: {
 
-        units: units,
+        units:
+          units,
 
-        energyCharge: energyCharge,
+        ratePerUnit:
+          ratePerUnit,
 
-        fixedCharge: fixedCharge,
+        usageCharge:
+          usageCharge,
 
-        totalAmount: totalAmount
+        fixedCharge:
+          fixedCharge,
+
+        additionalCharge:
+          additionalCharge,
+
+        subtotal:
+          subtotal,
+
+        taxRate:
+          taxRate,
+
+        tax:
+          tax,
+
+        previousDue:
+          previousDue,
+
+        lateFee:
+          lateFee,
+
+        credit:
+          credit,
+
+        billAmount:
+          billAmount
 
       }
 
     });
-
 
   } catch (error) {
 
@@ -155,23 +231,23 @@ router.post("/create", async (req, res) => {
       error
     );
 
-
     res.status(500).json({
 
-      message: "Server error",
+      message:
+        "Server error",
 
-      error: error.message
+      error:
+        error.message
 
     });
 
   }
-
 });
 
 
-// ==========================================
+// ==================================================
 // GET ALL BILLS OF ONE CONSUMER
-// ==========================================
+// ==================================================
 
 router.get("/:consumerNumber", async (req, res) => {
 
@@ -180,24 +256,20 @@ router.get("/:consumerNumber", async (req, res) => {
     const consumerNumber =
       req.params.consumerNumber;
 
-
-    const bills = await Bill.find({
-
-      consumerNumber: consumerNumber
-
-    }).sort({
-
-      createdAt: -1
-
-    });
-
+    const bills =
+      await Bill.find({
+        consumerNumber:
+          consumerNumber
+      }).sort({
+        createdAt: -1
+      });
 
     res.status(200).json({
 
-      bills: bills
+      bills:
+        bills
 
     });
-
 
   } catch (error) {
 
@@ -206,12 +278,13 @@ router.get("/:consumerNumber", async (req, res) => {
       error
     );
 
-
     res.status(500).json({
 
-      message: "Server error",
+      message:
+        "Server error",
 
-      error: error.message
+      error:
+        error.message
 
     });
 

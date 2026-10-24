@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   FaHistory,
@@ -10,127 +10,215 @@ import {
   FaFileInvoiceDollar,
   FaSearch,
   FaDownload,
+  FaExclamationCircle,
 } from "react-icons/fa";
 
 import { useNavigate } from "react-router-dom";
 
 import "../styles/paymenthistory.css";
 
-
 function PaymentHistory() {
-
   const navigate = useNavigate();
 
-  /* =========================
-     PAYMENT DATA
-  ========================== */
-
-  const [payments] = useState([
-    {
-      id: 1,
-      billNo: "DGVCL-BILL-1001",
-      transactionId: "TXN789456123",
-      amount: "$45.00",
-      date: "15 July 2026",
-      method: "UPI",
-      status: "Paid",
-    },
-
-    {
-      id: 2,
-      billNo: "DGVCL-BILL-1002",
-      transactionId: "TXN789456124",
-      amount: "$52.00",
-      date: "15 June 2026",
-      method: "Debit Card",
-      status: "Paid",
-    },
-
-    {
-      id: 3,
-      billNo: "DGVCL-BILL-1003",
-      transactionId: "TXN789456125",
-      amount: "$48.00",
-      date: "15 May 2026",
-      method: "Credit Card",
-      status: "Paid",
-    },
-
-    {
-      id: 4,
-      billNo: "DGVCL-BILL-1004",
-      transactionId: "TXN789456126",
-      amount: "$41.00",
-      date: "15 April 2026",
-      method: "Net Banking",
-      status: "Paid",
-    },
-
-    {
-      id: 5,
-      billNo: "DGVCL-BILL-1005",
-      transactionId: "TXN789456127",
-      amount: "$55.00",
-      date: "15 March 2026",
-      method: "UPI",
-      status: "Paid",
-    },
-  ]);
-
-
-  /* =========================
-     SEARCH
-  ========================== */
-
+  const [payments, setPayments] = useState([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
+  // ==========================================
+  // FETCH PAYMENT HISTORY
+  // ==========================================
 
-  const filteredPayments = payments.filter((payment) => {
+  useEffect(() => {
+    fetchPaymentHistory();
+  }, []);
 
-    const searchText = search.toLowerCase();
+  const fetchPaymentHistory = async () => {
+    try {
+      setLoading(true);
+      setError("");
 
+      // Get logged-in consumer number
+      const consumerNumber =
+        localStorage.getItem("consumerNumber");
+
+      if (!consumerNumber) {
+        setError(
+          "Consumer number not found. Please login again."
+        );
+
+        setLoading(false);
+        return;
+      }
+
+      console.log(
+        "Fetching payment history for:",
+        consumerNumber
+      );
+
+      // Backend API
+      const response = await fetch(
+        `http://localhost:5000/api/payments/${consumerNumber}`
+      );
+
+      const data = await response.json();
+
+      console.log("Payment History Response:", data);
+
+      if (response.ok) {
+        setPayments(data.payments || []);
+      } else {
+        setError(
+          data.message ||
+            "Unable to fetch payment history."
+        );
+      }
+    } catch (error) {
+      console.error(
+        "PAYMENT HISTORY ERROR:",
+        error
+      );
+
+      setError(
+        "Backend server is not connected."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ==========================================
+  // SEARCH
+  // ==========================================
+
+  const filteredPayments = payments.filter(
+    (payment) => {
+      const searchText =
+        search.toLowerCase();
+
+      return (
+        (payment.billNumber || "")
+          .toLowerCase()
+          .includes(searchText) ||
+
+        (payment.transactionId || "")
+          .toLowerCase()
+          .includes(searchText) ||
+
+        (payment.paymentMethod || "")
+          .toLowerCase()
+          .includes(searchText) ||
+
+        (payment.billMonth || "")
+          .toLowerCase()
+          .includes(searchText) ||
+
+        (payment.status || "")
+          .toLowerCase()
+          .includes(searchText)
+      );
+    }
+  );
+
+  // ==========================================
+  // PAYMENT STATUS
+  // ==========================================
+
+  const isPaymentSuccessful = (payment) => {
     return (
-      payment.billNo.toLowerCase().includes(searchText) ||
-      payment.transactionId.toLowerCase().includes(searchText) ||
-      payment.method.toLowerCase().includes(searchText) ||
-      payment.date.toLowerCase().includes(searchText)
+      payment.status === "Success" ||
+      payment.status === "Paid" ||
+      payment.status === "Successful"
     );
+  };
 
-  });
+  // ==========================================
+  // FORMAT DATE
+  // ==========================================
 
+  const formatDate = (date) => {
+    if (!date) {
+      return "N/A";
+    }
 
-  /* =========================
-     DOWNLOAD RECEIPT
-  ========================== */
+    const paymentDate = new Date(date);
+
+    if (isNaN(paymentDate.getTime())) {
+      return date;
+    }
+
+    return paymentDate.toLocaleDateString(
+      "en-IN",
+      {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      }
+    );
+  };
+
+  // ==========================================
+  // FORMAT AMOUNT
+  // ==========================================
+
+  const formatAmount = (amount) => {
+    const numericAmount = Number(amount);
+
+    if (isNaN(numericAmount)) {
+      return `₹${amount}`;
+    }
+
+    return `₹${numericAmount.toFixed(2)}`;
+  };
+
+  // ==========================================
+  // DOWNLOAD RECEIPT
+  // ==========================================
 
   const handleDownload = (payment) => {
-
     alert(
       `Receipt download started for ${payment.transactionId}`
     );
-
   };
 
+  // ==========================================
+  // SUCCESSFUL PAYMENTS
+  // ==========================================
+
+  const successfulPayments =
+    payments.filter((payment) =>
+      isPaymentSuccessful(payment)
+    );
+
+  // ==========================================
+  // LAST PAYMENT
+  // ==========================================
+
+  const lastPayment =
+    payments.length > 0
+      ? payments[0]
+      : null;
+
+  // ==========================================
+  // UI
+  // ==========================================
 
   return (
-
     <div className="payment-history-page">
 
-
-      {/* =========================
-          HEADER
-      ========================== */}
+      {/* HEADER */}
 
       <div className="payment-history-header">
 
         <button
           className="payment-back-btn"
-          onClick={() => navigate("/dashboard")}
+          onClick={() =>
+            navigate("/dashboard")
+          }
         >
           <FaArrowLeft />
           Back to Dashboard
         </button>
-
 
         <div className="payment-header-content">
 
@@ -139,34 +227,50 @@ function PaymentHistory() {
           </div>
 
           <div>
-
             <h1>Payment History</h1>
 
             <p>
-              View your previous electricity bill payments
-              and transaction details
+              View your previous electricity
+              bill payments and transaction
+              details
             </p>
-
           </div>
 
         </div>
 
       </div>
 
-
-      {/* =========================
-          MAIN CONTAINER
-      ========================== */}
+      {/* MAIN */}
 
       <div className="payment-history-container">
 
+        {/* ERROR */}
 
-        {/* =========================
-            SUMMARY CARDS
-        ========================== */}
+        {error && (
+          <div
+            className="payment-error"
+            style={{
+              padding: "14px 18px",
+              marginBottom: "20px",
+              borderRadius: "12px",
+              background: "#fff1f0",
+              border: "1px solid #ffd2ce",
+              color: "#b42318",
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+            }}
+          >
+            <FaExclamationCircle />
+            {error}
+          </div>
+        )}
+
+        {/* SUMMARY */}
 
         <div className="payment-summary">
 
+          {/* TOTAL */}
 
           <div className="summary-card">
 
@@ -175,15 +279,18 @@ function PaymentHistory() {
             </div>
 
             <div>
-
               <span>Total Payments</span>
 
-              <h2>{payments.length}</h2>
-
+              <h2>
+                {loading
+                  ? "..."
+                  : payments.length}
+              </h2>
             </div>
 
           </div>
 
+          {/* SUCCESSFUL */}
 
           <div className="summary-card">
 
@@ -192,22 +299,20 @@ function PaymentHistory() {
             </div>
 
             <div>
-
-              <span>Successful Payments</span>
+              <span>
+                Successful Payments
+              </span>
 
               <h2>
-                {
-                  payments.filter(
-                    (payment) =>
-                      payment.status === "Paid"
-                  ).length
-                }
+                {loading
+                  ? "..."
+                  : successfulPayments.length}
               </h2>
-
             </div>
 
           </div>
 
+          {/* LAST PAYMENT */}
 
           <div className="summary-card">
 
@@ -216,44 +321,40 @@ function PaymentHistory() {
             </div>
 
             <div>
-
               <span>Last Payment</span>
 
               <h2>
-                {payments[0].amount}
+                {loading
+                  ? "..."
+                  : lastPayment
+                  ? formatAmount(
+                      lastPayment.amount
+                    )
+                  : "₹0.00"}
               </h2>
-
             </div>
 
           </div>
 
         </div>
 
-
-        {/* =========================
-            PAYMENT HISTORY CARD
-        ========================== */}
+        {/* PAYMENT CARD */}
 
         <div className="payment-history-card">
-
-
-          {/* CARD HEADER */}
 
           <div className="history-card-header">
 
             <div>
-
               <h2>
                 <FaFileInvoiceDollar />
                 Recent Transactions
               </h2>
 
               <p>
-                Your recent electricity bill payment records
+                Your recent electricity bill
+                payment records
               </p>
-
             </div>
-
 
             {/* SEARCH */}
 
@@ -266,7 +367,9 @@ function PaymentHistory() {
                 placeholder="Search payment..."
                 value={search}
                 onChange={(e) =>
-                  setSearch(e.target.value)
+                  setSearch(
+                    e.target.value
+                  )
                 }
               />
 
@@ -274,198 +377,214 @@ function PaymentHistory() {
 
           </div>
 
+          {/* LOADING */}
 
-          {/* =========================
-              PAYMENT TABLE
-          ========================== */}
+          {loading ? (
 
-          <div className="payment-table-wrapper">
+            <div className="no-payment">
 
-            <table className="payment-table">
+              <FaHistory />
 
-              <thead>
+              <h3>
+                Loading Payment History...
+              </h3>
 
-                <tr>
+              <p>
+                Please wait while we fetch
+                your payment records.
+              </p>
 
-                  <th>Bill Number</th>
+            </div>
 
-                  <th>Transaction ID</th>
+          ) : (
 
-                  <th>Payment Date</th>
+            <div className="payment-table-wrapper">
 
-                  <th>Payment Method</th>
+              <table className="payment-table">
 
-                  <th>Amount</th>
+                <thead>
 
-                  <th>Status</th>
+                  <tr>
+                    <th>Bill Number</th>
+                    <th>Transaction ID</th>
+                    <th>Payment Date</th>
+                    <th>Payment Method</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Receipt</th>
+                  </tr>
 
-                  <th>Receipt</th>
+                </thead>
 
-                </tr>
+                <tbody>
 
-              </thead>
+                  {filteredPayments.length > 0 ? (
 
+                    filteredPayments.map(
+                      (payment) => (
 
-              <tbody>
-
-                {filteredPayments.length > 0 ? (
-
-                  filteredPayments.map((payment) => (
-
-                    <tr key={payment.id}>
-
-
-                      {/* BILL NUMBER */}
-
-                      <td>
-
-                        <div className="bill-number">
-
-                          <FaFileInvoiceDollar />
-
-                          <span>
-                            {payment.billNo}
-                          </span>
-
-                        </div>
-
-                      </td>
-
-
-                      {/* TRANSACTION ID */}
-
-                      <td>
-
-                        <span className="transaction-id">
-
-                          {payment.transactionId}
-
-                        </span>
-
-                      </td>
-
-
-                      {/* DATE */}
-
-                      <td>
-
-                        <div className="payment-date">
-
-                          <FaCalendarAlt />
-
-                          {payment.date}
-
-                        </div>
-
-                      </td>
-
-
-                      {/* METHOD */}
-
-                      <td>
-
-                        <span className="payment-method">
-
-                          <FaCreditCard />
-
-                          {payment.method}
-
-                        </span>
-
-                      </td>
-
-
-                      {/* AMOUNT */}
-
-                      <td>
-
-                        <strong className="payment-amount">
-
-                          {payment.amount}
-
-                        </strong>
-
-                      </td>
-
-
-                      {/* STATUS */}
-
-                      <td>
-
-                        <span className="payment-status">
-
-                          <FaCheckCircle />
-
-                          {payment.status}
-
-                        </span>
-
-                      </td>
-
-
-                      {/* DOWNLOAD */}
-
-                      <td>
-
-                        <button
-                          className="download-receipt-btn"
-                          onClick={() =>
-                            handleDownload(payment)
+                        <tr
+                          key={
+                            payment._id ||
+                            payment.transactionId
                           }
                         >
 
-                          <FaDownload />
+                          {/* BILL */}
 
-                          Receipt
+                          <td>
+                            <div className="bill-number">
 
-                        </button>
+                              <FaFileInvoiceDollar />
+
+                              <span>
+                                {
+                                  payment.billNumber ||
+                                  "N/A"
+                                }
+                              </span>
+
+                            </div>
+                          </td>
+
+                          {/* TRANSACTION */}
+
+                          <td>
+                            <span className="transaction-id">
+                              {
+                                payment.transactionId ||
+                                "N/A"
+                              }
+                            </span>
+                          </td>
+
+                          {/* DATE */}
+
+                          <td>
+                            <div className="payment-date">
+
+                              <FaCalendarAlt />
+
+                              {
+                                formatDate(
+                                  payment.createdAt
+                                )
+                              }
+
+                            </div>
+                          </td>
+
+                          {/* METHOD */}
+
+                          <td>
+                            <span className="payment-method">
+
+                              <FaCreditCard />
+
+                              {
+                                payment.paymentMethod ||
+                                "N/A"
+                              }
+
+                            </span>
+                          </td>
+
+                          {/* AMOUNT */}
+
+                          <td>
+                            <strong className="payment-amount">
+
+                              {
+                                formatAmount(
+                                  payment.amount
+                                )
+                              }
+
+                            </strong>
+                          </td>
+
+                          {/* STATUS */}
+
+                          <td>
+                            <span className="payment-status">
+
+                              <FaCheckCircle />
+
+                              {
+                                isPaymentSuccessful(
+                                  payment
+                                )
+                                  ? "Paid"
+                                  : payment.status ||
+                                    "Unknown"
+                              }
+
+                            </span>
+                          </td>
+
+                          {/* RECEIPT */}
+
+                          <td>
+
+                            <button
+                              className="download-receipt-btn"
+                              onClick={() =>
+                                handleDownload(
+                                  payment
+                                )
+                              }
+                            >
+
+                              <FaDownload />
+                              Receipt
+
+                            </button>
+
+                          </td>
+
+                        </tr>
+
+                      )
+                    )
+
+                  ) : (
+
+                    <tr>
+
+                      <td
+                        colSpan="7"
+                        className="no-payment"
+                      >
+
+                        <FaHistory />
+
+                        <h3>
+                          No Payment Found
+                        </h3>
+
+                        <p>
+                          {search
+                            ? "Try searching with a different bill number or transaction ID."
+                            : "You have not made any electricity bill payments yet."}
+                        </p>
 
                       </td>
 
-
                     </tr>
 
-                  ))
+                  )}
 
-                ) : (
+                </tbody>
 
-                  <tr>
+              </table>
 
-                    <td
-                      colSpan="7"
-                      className="no-payment"
-                    >
+            </div>
 
-                      <FaHistory />
-
-                      <h3>
-                        No Payment Found
-                      </h3>
-
-                      <p>
-                        Try searching with a different
-                        bill number or transaction ID.
-                      </p>
-
-                    </td>
-
-                  </tr>
-
-                )}
-
-              </tbody>
-
-            </table>
-
-          </div>
-
+          )}
 
         </div>
 
-
-        {/* =========================
-            FOOTER INFO
-        ========================== */}
+        {/* FOOTER */}
 
         <div className="payment-info">
 
@@ -478,22 +597,19 @@ function PaymentHistory() {
             </h3>
 
             <p>
-              Your payment transactions are securely
-              recorded in the DGVCL Consumer Portal.
+              Your payment transactions are
+              securely recorded in the
+              DGVCL Consumer Portal.
             </p>
 
           </div>
 
         </div>
 
-
       </div>
 
     </div>
-
   );
-
 }
-
 
 export default PaymentHistory;
